@@ -1,19 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:sarana_hidayah/screen/register_page.dart';
+import 'package:sarana_hidayah/screen/login_page.dart';
 import 'package:sarana_hidayah/widgets/input_widget.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+class RegisterPage extends StatefulWidget {
+  const RegisterPage({super.key});
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<RegisterPage> createState() => _RegisterPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _RegisterPageState extends State<RegisterPage> {
+  final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _confirmPasswordController =
+      TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -25,11 +28,19 @@ class _LoginPageState extends State<LoginPage> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
-            'Login Page',
+            'Register Page',
             style: GoogleFonts.poppins(fontSize: size * 0.080),
           ),
           SizedBox(
             height: 30,
+          ),
+          InputWidget(
+            hintText: 'Name',
+            controller: _nameController,
+            obscuredText: false,
+          ),
+          SizedBox(
+            height: 20,
           ),
           InputWidget(
             hintText: 'Email',
@@ -45,6 +56,14 @@ class _LoginPageState extends State<LoginPage> {
             obscuredText: true,
           ),
           SizedBox(
+            height: 20,
+          ),
+          InputWidget(
+            hintText: 'Confirm Password',
+            controller: _confirmPasswordController,
+            obscuredText: true,
+          ),
+          SizedBox(
             height: 30,
           ),
           ElevatedButton(
@@ -55,7 +74,7 @@ class _LoginPageState extends State<LoginPage> {
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.zero)),
             onPressed: () {},
             child: Text(
-              'Login',
+              'Register',
               style: GoogleFonts.poppins(
                   fontSize: size * 0.040, color: Colors.white),
             ),
@@ -65,10 +84,10 @@ class _LoginPageState extends State<LoginPage> {
           ),
           TextButton(
               onPressed: () {
-                Get.to(() => RegisterPage());
+                Get.to(() => LoginPage());
               },
               child: Text(
-                'Register',
+                'Login',
                 style: GoogleFonts.poppins(
                     fontSize: size * 0.040, color: Colors.black),
               ))
