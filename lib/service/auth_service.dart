@@ -1,25 +1,15 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:sarana_hidayah/constant/constant.dart';
+import 'package:sarana_hidayah/model/user.dart';
 import 'package:sarana_hidayah/screen/home_page.dart';
 
 class AuthService extends GetxController {
-  Future register({
-    required String name,
-    required String email,
-    required String password,
-    required String confirmPassword,
-  }) async {
+  Future register({required User user}) async {
     try {
-      var data = jsonEncode({
-        'name': name,
-        'email': email,
-        'password': password,
-        'password_confirmation': confirmPassword,
-      });
+      var data = jsonEncode(user.toJson());
 
       var response = await http.post(
         Uri.parse(url + 'register'),
@@ -44,10 +34,7 @@ class AuthService extends GetxController {
     }
   }
 
-  Future<void> login({
-    required String email,
-    required String password,
-  }) async {
+  Future<void> login({required String email, required String password}) async {
     try {
       var data = jsonEncode({
         'email': email,
