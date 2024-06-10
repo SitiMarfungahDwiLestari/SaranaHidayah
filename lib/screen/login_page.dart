@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sarana_hidayah/screen/register_page.dart';
+import 'package:sarana_hidayah/service/auth_service.dart';
 import 'package:sarana_hidayah/widgets/input_widget.dart';
 
 class LoginPage extends StatefulWidget {
@@ -14,6 +15,22 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final AuthService _authService = Get.put(AuthService());
+
+  void _login() async {
+    String email = _emailController.text;
+    String password = _passwordController.text;
+
+    if (email.isEmpty || password.isEmpty) {
+      Get.snackbar('Error', 'Please fill all fields');
+      return;
+    }
+
+    debugPrint(
+        'Attempting to login with email: $email and password: $password');
+
+    await _authService.login(email: email, password: password);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +70,7 @@ class _LoginPageState extends State<LoginPage> {
                 elevation: 0,
                 padding: EdgeInsets.symmetric(horizontal: 50, vertical: 15),
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.zero)),
-            onPressed: () {},
+            onPressed: _login,
             child: Text(
               'Login',
               style: GoogleFonts.poppins(
