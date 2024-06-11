@@ -10,12 +10,8 @@ class FooterWidget extends StatelessWidget {
           label: 'Home',
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.search),
-          label: 'Search',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.account_circle),
-          label: 'Profile',
+          icon: Icon(Icons.sticky_note_2_sharp),
+          label: 'Transaction',
         ),
       ],
     );

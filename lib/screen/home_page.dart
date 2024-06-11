@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:sarana_hidayah/controller/book_controller.dart';
 import 'package:sarana_hidayah/model/book.dart';
 import 'package:sarana_hidayah/widgets/footer_widget.dart';
@@ -11,6 +12,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final BookController bookController = BookController();
+  bool isExpanded = false;
 
   @override
   void initState() {
@@ -115,6 +117,40 @@ class _HomePageState extends State<HomePage> {
             );
           }
         },
+      ),
+      floatingActionButton: SpeedDial(
+        child: Icon(
+          Icons.add,
+          color: Colors.white,
+        ),
+        activeIcon: Icons.close,
+        iconTheme: IconThemeData(color: Colors.white),
+        buttonSize: Size(65, 65),
+        curve: Curves.bounceIn,
+        children: [
+          SpeedDialChild(
+            elevation: 0,
+            child: Icon(
+              Icons.book_rounded,
+              color: Colors.blue,
+            ),
+            labelWidget: Text(
+              "Book",
+              style: TextStyle(color: Colors.blue),
+            ),
+          ),
+          SpeedDialChild(
+            elevation: 0,
+            child: Icon(
+              Icons.category_outlined,
+              color: Colors.blue,
+            ),
+            labelWidget: Text(
+              "Category",
+              style: TextStyle(color: Colors.blue),
+            ),
+          )
+        ],
       ),
       bottomNavigationBar: FooterWidget(),
     );

@@ -7,8 +7,13 @@ class HeaderWidget extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      title: const Text('Book Store 😃📚'),
-      backgroundColor: const Color(0xff134f5c),
+      title: const Text('Sarana Hidayah'),
+      actions: [
+        IconButton(
+          icon: Icon(Icons.logout_outlined),
+          onPressed: () {},
+        ),
+      ],
     );
   }
 }
