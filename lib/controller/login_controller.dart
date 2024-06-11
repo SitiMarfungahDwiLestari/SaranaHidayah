@@ -1,22 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sarana_hidayah/service/auth_service.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginController extends GetxController {
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
 
-  final AuthService _authService = Get.put(AuthService());
 
-  void login() async {
-    String email = emailController.text.trim();
-    String password = passwordController.text.trim();
+  final AuthService authService = AuthService();
 
-    if (email.isEmpty || password.isEmpty) {
-      Get.snackbar('Error', 'Please fill all fields');
-      return;
+
+  Future<String> login(String email, String password) async {
+    final response = await authService.login(email, password);
+    if (response.containsKey('status') &&
+        response['status'] == 'Login success!') {
+      SharedPreferences preferences = await SharedPreferences.getInstance();
+      await preferences.setString('token', response['access_token']);
+      return 'Login successful';
+    } else {
+      return response['message'] ?? 'Terjadi kesalahan saat login.';
     }
-
-    await _authService.login(email: email, password: password);
   }
+
 }

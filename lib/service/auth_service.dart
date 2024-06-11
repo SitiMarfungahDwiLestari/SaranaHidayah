@@ -34,40 +34,14 @@ class AuthService extends GetxController {
     }
   }
 
-  Future<void> login({required String email, required String password}) async {
-    try {
-      var data = jsonEncode({
-        'email': email,
-        'password': password,
-      });
-
-      var response = await http.post(
-        Uri.parse(url + 'login'),
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-        },
-        body: data,
-      );
-
-      debugPrint('Response status: ${response.statusCode}');
-      debugPrint('Response body: ${response.body}');
-
-      if (response.statusCode == 201) {
-        // Proses berhasil
-        var responseData = json.decode(response.body);
-        debugPrint(responseData.toString());
-        Get.offAll(() => HomePage());
-      } else {
-        // Proses gagal
-        var responseData = json.decode(response.body);
-        debugPrint(responseData.toString());
-        Get.snackbar('Error', responseData['message'] ?? 'Login failed');
-      }
-    } catch (e) {
-      // Proses gagal karena error
-      print(e.toString());
-      Get.snackbar('Error', 'An error occurred');
-    }
+  Future<Map<String, dynamic>> login(String email, String password) async {
+    final response = await http.post(
+      Uri.parse(url + 'login'),
+      body: {'email': email, 'password': password},
+      headers: {"Accept": "application/json"},
+    );
+    print('Response Status: ${response.statusCode}');
+    print('Response Body: ${response.body}');
+    return jsonDecode(response.body);
   }
 }
