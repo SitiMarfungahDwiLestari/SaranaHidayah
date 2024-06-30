@@ -1,16 +1,15 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:sarana_hidayah/constant/constant.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class CategoryService {
-  final String baseUrl = 'http://tokobuku.test/api';
-
   Future<List<dynamic>> fetchCategories() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     String? token = preferences.getString('token');
 
     final response = await http.get(
-      Uri.parse('$baseUrl/category'),
+      Uri.parse(url + 'category'),
       headers: {
         "Accept": "application/json",
         "Authorization": "Bearer $token",
@@ -33,7 +32,7 @@ class CategoryService {
     String? token = preferences.getString('token');
 
     final response = await http.post(
-      Uri.parse('$baseUrl/category'),
+      Uri.parse(url + 'category'),
       headers: {
         "Accept": "application/json",
         "Authorization": "Bearer $token",
@@ -60,7 +59,7 @@ class CategoryService {
     String? token = preferences.getString('token');
 
     final response = await http.put(
-      Uri.parse('$baseUrl/categories/$id'),
+      Uri.parse(url + 'category/$id'),
       headers: {
         "Accept": "application/json",
         "Authorization": "Bearer $token",
@@ -71,8 +70,12 @@ class CategoryService {
       }),
     );
 
-    if (response.statusCode != 200) {
-      throw Exception('Failed to update category');
+    if (response.statusCode == 200) {
+      print('Category updated successfully');
+    } else {
+      print('Response status: ${response.statusCode}');
+      print('Response body: ${response.body}');
+      throw Exception('Failed to updated category');
     }
   }
 
@@ -81,14 +84,18 @@ class CategoryService {
     String? token = preferences.getString('token');
 
     final response = await http.delete(
-      Uri.parse('$baseUrl/categories/$id'),
+      Uri.parse(url + 'category/$id'),
       headers: {
         "Accept": "application/json",
         "Authorization": "Bearer $token",
       },
     );
 
-    if (response.statusCode != 200) {
+    if (response.statusCode == 200) {
+      print('Category deleted successfully');
+    } else {
+      print('Response status: ${response.statusCode}');
+      print('Response body: ${response.body}');
       throw Exception('Failed to delete category');
     }
   }
