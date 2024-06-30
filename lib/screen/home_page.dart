@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:sarana_hidayah/model/book.dart';
 import 'package:sarana_hidayah/controller/book_controller.dart';
+import 'package:sarana_hidayah/screen/add_book_page.dart';
+import 'package:sarana_hidayah/screen/edit_book_page.dart';
 import 'package:sarana_hidayah/widgets/drawer_widget.dart';
 import 'package:sarana_hidayah/widgets/header_widget.dart';
 
@@ -23,10 +25,17 @@ class _HomePageState extends State<HomePage> {
   }
 
   void _addBook() {
-    // Navigator.push(
-    //   context,
-    //   MaterialPageRoute(builder: (context) => AddBookPage()),
-    // );
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => AddBookPage()),
+    );
+  }
+
+  void _editBook(Book book) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => EditBookPage(book: book)),
+    );
   }
 
   @override
@@ -131,7 +140,7 @@ class _HomePageState extends State<HomePage> {
                         IconButton(
                           icon: const Icon(Icons.edit),
                           onPressed: () {
-                            // Edit book logic
+                            _editBook(book);
                           },
                         ),
                         IconButton(
