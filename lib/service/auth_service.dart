@@ -7,31 +7,30 @@ import 'package:sarana_hidayah/model/user.dart';
 import 'package:sarana_hidayah/screen/home_page.dart';
 
 class AuthService extends GetxController {
-  Future register({required User user}) async {
-    try {
-      var data = jsonEncode(user.toJson());
-
-      var response = await http.post(
-        Uri.parse(url + 'register'),
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-        },
-        body: data,
-      );
-
-      if (response.statusCode == 201) {
-        // Proses berhasil
-        var responseData = json.decode(response.body);
-        debugPrint(responseData.toString());
-      } else {
-        // Proses gagal
-        var responseData = json.decode(response.body);
-        debugPrint(responseData.toString());
-      }
-    } catch (e) {
-      print(e.toString());
-    }
+  Future<Map<String, dynamic>> register(
+      String name,
+      String phone,
+      String address,
+      String email,
+      String password,
+      String confirmPassword) async {
+    final response = await http.post(
+      Uri.parse(url + 'register'),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: {
+        'name': name,
+        'phone_number': phone,
+        'address': address,
+        'email': email,
+        'password': password,
+        'password_confirmation': confirmPassword,
+      },
+    );
+    print('Response Status: ${response.statusCode}');
+    print('Response Body: ${response.body}');
+    return jsonDecode(response.body);
   }
 
   Future<Map<String, dynamic>> login(String email, String password) async {
