@@ -64,8 +64,8 @@ class _DrawerWidgetState extends State<DrawerWidget> {
               },
             ),
             ListTile(
-              leading: const Icon(Icons.book),
-              title: Text('Book'),
+              leading: const Icon(Icons.shopping_cart),
+              title: Text('Transaction'),
               onTap: () {
                 Navigator.pop(context);
               },
