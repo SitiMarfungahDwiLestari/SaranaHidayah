@@ -13,7 +13,7 @@ class CategoryController extends GetxController {
     fetchCategories();
   }
 
-  void fetchCategories() async {
+  Future<void> fetchCategories() async {
     try {
       List<dynamic> categoryData = await categoryService.fetchCategories();
       List<Category> categoryList =
@@ -25,30 +25,30 @@ class CategoryController extends GetxController {
     }
   }
 
-  void addCategory(String name) async {
+  Future<void> addCategory(String name) async {
     try {
       await categoryService.addCategory(name);
-      fetchCategories();
+      await fetchCategories();
     } catch (e) {
       print(e);
       throw Exception('Failed to add category');
     }
   }
 
-  void updateCategory(int id, String name) async {
+  Future<void> updateCategory(int id, String name) async {
     try {
       await categoryService.updateCategory(id, name);
-      fetchCategories();
+      await fetchCategories();
     } catch (e) {
       print(e);
       throw Exception('Failed to update category');
     }
   }
 
-  void deleteCategory(int id) async {
+  Future<void> deleteCategory(int id) async {
     try {
       await categoryService.deleteCategory(id);
-      fetchCategories();
+      await fetchCategories();
     } catch (e) {
       print(e);
       throw Exception('Failed to delete category');

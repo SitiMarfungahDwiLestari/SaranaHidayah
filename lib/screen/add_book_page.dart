@@ -50,7 +50,7 @@ class _AddBookPageState extends State<AddBookPage> {
         titleController.text,
         authorController.text,
         int.parse(publicationYearController.text),
-        int.parse(priceController.text),
+        double.parse(priceController.text),
         descriptionController.text,
         _selectedCategory!.id,
         _image!.path,

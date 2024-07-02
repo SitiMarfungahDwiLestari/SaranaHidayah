@@ -24,7 +24,7 @@ class BookController extends GetxController {
     }
   }
 
-  void addBook(String title, String author, int publicationYear, int price,
+  void addBook(String title, String author, int publicationYear, double price,
       String description, int categoryId, String imagePath) async {
     try {
       await bookService.addBook(title, author, publicationYear, price,
@@ -37,7 +37,7 @@ class BookController extends GetxController {
   }
 
   void updateBook(int id, String title, String author, int publicationYear,
-      int price, String description, int categoryId,
+      double price, String description, int categoryId,
       [String? imagePath]) async {
     try {
       await bookService.updateBook(id, title, author, publicationYear, price,

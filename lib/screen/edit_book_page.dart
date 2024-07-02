@@ -45,7 +45,8 @@ class _EditBookPageState extends State<EditBookPage> {
         titleController.text,
         authorController.text,
         int.parse(publicationYearController.text),
-        int.parse(priceController.text),
+        double.parse(
+            priceController.text), // Mengubah dari int.parse ke double.parse
         descriptionController.text,
         _selectedCategory!.id,
         _image?.path,
@@ -53,6 +54,18 @@ class _EditBookPageState extends State<EditBookPage> {
 
       Get.back();
     }
+  }
+
+  Future<void> _initializeCategories() async {
+    await categoryController.fetchCategories();
+    setState(() {
+      if (categoryController.categories.isNotEmpty) {
+        _selectedCategory = categoryController.categories.firstWhere(
+          (category) => category.id == widget.book.categoryId,
+          orElse: () => categoryController.categories.first,
+        );
+      }
+    });
   }
 
   @override
@@ -66,12 +79,7 @@ class _EditBookPageState extends State<EditBookPage> {
     descriptionController =
         TextEditingController(text: widget.book.description);
 
-    _selectedCategory = categoryController.categories.firstWhere(
-      (category) => category.id == widget.book.categoryId,
-      orElse: () => categoryController.categories.first,
-    );
-
-    categoryController.fetchCategories();
+    _initializeCategories();
   }
 
   @override
@@ -231,7 +239,7 @@ class _EditBookPageState extends State<EditBookPage> {
                   )),
               SizedBox(height: 10),
               _image == null
-                  ? Image.network(widget.book.image,
+                  ? Image.network(widget.book.image ?? '',
                       height: 200, fit: BoxFit.cover)
                   : Image.file(File(_image!.path),
                       height: 200, fit: BoxFit.cover),

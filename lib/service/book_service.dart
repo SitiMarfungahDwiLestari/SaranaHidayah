@@ -27,8 +27,14 @@ class BookService {
     }
   }
 
-  Future<void> addBook(String title, String author, int publicationYear,
-      int price, String description, int categoryId, String imagePath) async {
+  Future<void> addBook(
+      String title,
+      String author,
+      int publicationYear,
+      double price,
+      String description,
+      int categoryId,
+      String imagePath) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     String? token = preferences.getString('token');
 
@@ -60,7 +66,7 @@ class BookService {
   }
 
   Future<void> updateBook(int id, String title, String author,
-      int publicationYear, int price, String description, int categoryId,
+      int publicationYear, double price, String description, int categoryId,
       [String? imagePath]) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     String? token = preferences.getString('token');
