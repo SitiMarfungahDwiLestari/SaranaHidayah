@@ -30,7 +30,13 @@ class AuthController {
     }
   }
 
-  Future<void> logout() async {
-    await authService.logout();
+  Future<String> logout() async {
+    final response = await authService.logout();
+    if (response.containsKey('status') &&
+        response['status'] == 'Logout success!') {
+      return 'Logout successful';
+    } else {
+      return response['message'] ?? 'Terjadi kesalahan saat logout.';
+    }
   }
 }

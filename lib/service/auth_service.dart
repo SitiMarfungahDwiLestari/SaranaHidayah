@@ -42,8 +42,24 @@ class AuthService extends GetxController {
     return jsonDecode(response.body);
   }
 
-  Future<void> logout() async {
+  Future<Map<String, dynamic>> logout() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
-    await preferences.remove('token');
+    String? token = preferences.getString('token');
+
+    final response = await http.post(
+      Uri.parse(url + 'logout'),
+      headers: {
+        'Authorization': 'Bearer $token',
+        'Accept': 'application/json',
+      },
+    );
+    print('Response Status: ${response.statusCode}');
+    print('Response Body: ${response.body}');
+
+    if (response.statusCode == 200) {
+      await preferences.remove('token');
+    }
+
+    return jsonDecode(response.body);
   }
 }

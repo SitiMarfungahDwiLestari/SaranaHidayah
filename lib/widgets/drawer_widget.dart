@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:sarana_hidayah/controller/auth_controller.dart';
 import 'package:sarana_hidayah/screen/category_page.dart';
 import 'package:sarana_hidayah/screen/home_page.dart';
+import 'package:sarana_hidayah/screen/login_page.dart';
 import 'package:sarana_hidayah/screen/transaction_page.dart';
 
 class DrawerWidget extends StatelessWidget {
   final bool isAdmin;
+  final AuthController authController = AuthController();
 
-  const DrawerWidget({Key? key, required this.isAdmin}) : super(key: key);
+  DrawerWidget({Key? key, required this.isAdmin}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -79,6 +83,23 @@ class DrawerWidget extends StatelessWidget {
                       );
                     },
                   ),
+                  ListTile(
+                    leading: const Icon(Icons.logout),
+                    title: const Text('Logout'),
+                    onTap: () async {
+                      String message = await authController.logout();
+                      if (message == 'Logout successful') {
+                        Get.offAll(() => LoginPage());
+                      } else {
+                        // Handle logout error
+                        Get.snackbar(
+                          'Error',
+                          message,
+                          snackPosition: SnackPosition.BOTTOM,
+                        );
+                      }
+                    },
+                  ),
                 ],
               )
             else
@@ -113,6 +134,23 @@ class DrawerWidget extends StatelessWidget {
                           ),
                         ),
                       );
+                    },
+                  ),
+                  ListTile(
+                    leading: const Icon(Icons.logout),
+                    title: const Text('Logout'),
+                    onTap: () async {
+                      String message = await authController.logout();
+                      if (message == 'Logout successful') {
+                        Get.offAll(() => LoginPage());
+                      } else {
+                        // Handle logout error
+                        Get.snackbar(
+                          'Error',
+                          message,
+                          snackPosition: SnackPosition.BOTTOM,
+                        );
+                      }
                     },
                   ),
                 ],
