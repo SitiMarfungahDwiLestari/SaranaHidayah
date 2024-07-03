@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sarana_hidayah/controller/auth_controller.dart';
-import 'package:sarana_hidayah/screen/category_page.dart';
+import 'package:sarana_hidayah/screen/category/category_page.dart';
 import 'package:sarana_hidayah/screen/home_page.dart';
-import 'package:sarana_hidayah/screen/login_page.dart';
-import 'package:sarana_hidayah/screen/transaction_page.dart';
+import 'package:sarana_hidayah/screen/auth/login_page.dart';
+import 'package:sarana_hidayah/screen/transaction/transaction_page.dart';
 
 class DrawerWidget extends StatelessWidget {
   final bool isAdmin;
@@ -50,11 +50,11 @@ class DrawerWidget extends StatelessWidget {
                     leading: const Icon(Icons.home),
                     title: const Text('Catalog'),
                     onTap: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) => HomePage(isAdmin: isAdmin),
-                        ),
-                      );
+                      // Navigator.of(context).push(
+                      //   MaterialPageRoute(
+                      //     builder: (context) => HomePage(isAdmin: isAdmin),
+                      //   ),
+                      // );
                     },
                   ),
                   ListTile(
@@ -95,11 +95,11 @@ class DrawerWidget extends StatelessWidget {
                     leading: const Icon(Icons.home),
                     title: const Text('Catalog'),
                     onTap: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) => HomePage(isAdmin: isAdmin),
-                        ),
-                      );
+                      // Navigator.of(context).push(
+                      //   MaterialPageRoute(
+                      //     builder: (context) => HomePage(isAdmin: isAdmin),
+                      //   ),
+                      // );
                     },
                   ),
                   ListTile(

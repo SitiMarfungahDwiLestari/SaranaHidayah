@@ -1,10 +1,10 @@
 import 'package:get/get.dart';
-import 'package:sarana_hidayah/screen/login_page.dart';
 import 'package:sarana_hidayah/service/auth_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class AuthController {
+class AuthController extends GetxController {
   final AuthService authService = AuthService();
+  var isAdmin = false.obs;
 
   Future<String> register(String name, String phone, String address,
       String email, String password, String confirmPassword) async {
@@ -24,6 +24,7 @@ class AuthController {
         response['status'] == 'Login success!') {
       SharedPreferences preferences = await SharedPreferences.getInstance();
       await preferences.setString('token', response['access_token']);
+      isAdmin.value = email == "superadmin@gmail.com";
       return 'Login successful';
     } else {
       return response['message'] ?? 'Terjadi kesalahan saat login.';
@@ -34,6 +35,9 @@ class AuthController {
     final response = await authService.logout();
     if (response.containsKey('status') &&
         response['status'] == 'Logout success!') {
+      SharedPreferences preferences = await SharedPreferences.getInstance();
+      await preferences.remove('token');
+      isAdmin.value = false;
       return 'Logout successful';
     } else {
       return response['message'] ?? 'Terjadi kesalahan saat logout.';

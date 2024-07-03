@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:sarana_hidayah/controller/auth_controller.dart';
 import 'package:sarana_hidayah/model/book.dart';
 import 'package:sarana_hidayah/controller/book_controller.dart';
 import 'package:sarana_hidayah/screen/book/add_book_page.dart';
@@ -10,16 +11,13 @@ import 'package:sarana_hidayah/widgets/drawer_widget.dart';
 import 'package:sarana_hidayah/widgets/header_widget.dart';
 
 class HomePage extends StatefulWidget {
-  final bool isAdmin;
-
-  const HomePage({Key? key, required this.isAdmin}) : super(key: key);
-
   @override
   State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
   final BookController bookController = Get.put(BookController());
+  final AuthController authController = Get.put(AuthController());
 
   @override
   void initState() {
@@ -51,11 +49,16 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: HeaderWidget(
-        title: 'Catalog',
-        isAdmin: widget.isAdmin,
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(kToolbarHeight),
+        child: Obx(() {
+          return HeaderWidget(
+            title: 'Catalog',
+            isAdmin: authController.isAdmin.value,
+          );
+        }),
       ),
-      drawer: DrawerWidget(isAdmin: widget.isAdmin),
+      drawer: Obx(() => DrawerWidget(isAdmin: authController.isAdmin.value)),
       body: Obx(() {
         if (bookController.books.isEmpty) {
           return const Center(child: Text('No books found'));
@@ -149,45 +152,49 @@ class _HomePageState extends State<HomePage> {
                     ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: widget.isAdmin
-                          ? Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                IconButton(
-                                  icon: const Icon(Icons.edit),
-                                  onPressed: () {
-                                    _editBook(book);
-                                  },
-                                ),
-                                IconButton(
-                                  icon: const Icon(Icons.delete),
-                                  onPressed: () {
-                                    bookController.deleteBook(book.id);
-                                  },
-                                ),
-                              ],
-                            )
-                          : Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                IconButton(
-                                  icon: const Icon(Icons.remove_shopping_cart),
-                                  onPressed: () {
-                                    // Logic to decrease quantity
-                                  },
-                                ),
-                                Text(
-                                  '0', // Display the current quantity
-                                  style: const TextStyle(fontSize: 16),
-                                ),
-                                IconButton(
-                                  icon: const Icon(Icons.add_shopping_cart),
-                                  onPressed: () {
-                                    // Logic to increase quantity
-                                  },
-                                ),
-                              ],
-                            ),
+                      child: Obx(() {
+                        if (authController.isAdmin.value) {
+                          return Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              IconButton(
+                                icon: const Icon(Icons.edit),
+                                onPressed: () {
+                                  _editBook(book);
+                                },
+                              ),
+                              IconButton(
+                                icon: const Icon(Icons.delete),
+                                onPressed: () {
+                                  bookController.deleteBook(book.id);
+                                },
+                              ),
+                            ],
+                          );
+                        } else {
+                          return Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              IconButton(
+                                icon: const Icon(Icons.remove_shopping_cart),
+                                onPressed: () {
+                                  // Logic to decrease quantity
+                                },
+                              ),
+                              Text(
+                                '0', // Display the current quantity
+                                style: const TextStyle(fontSize: 16),
+                              ),
+                              IconButton(
+                                icon: const Icon(Icons.add_shopping_cart),
+                                onPressed: () {
+                                  // Logic to increase quantity
+                                },
+                              ),
+                            ],
+                          );
+                        }
+                      }),
                     ),
                   ],
                 ),
@@ -196,13 +203,16 @@ class _HomePageState extends State<HomePage> {
           },
         );
       }),
-      floatingActionButton: widget.isAdmin
-          ? FloatingActionButton(
-              onPressed: _addBook,
-              child: const Icon(Icons.add),
-              tooltip: 'Add Book',
-            )
-          : null,
+      floatingActionButton: Obx(() {
+        return Visibility(
+          visible: authController.isAdmin.value,
+          child: FloatingActionButton(
+            onPressed: _addBook,
+            child: const Icon(Icons.add),
+            tooltip: 'Add Book',
+          ),
+        );
+      }),
     );
   }
 }

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:sarana_hidayah/controller/login_controller.dart';
+import 'package:get/get.dart';
+import 'package:sarana_hidayah/controller/auth_controller.dart';
 import 'package:sarana_hidayah/screen/home_page.dart';
-import 'package:sarana_hidayah/screen/register_page.dart';
+import 'package:sarana_hidayah/screen/auth/register_page.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -15,23 +15,19 @@ class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final LoginController _loginController = LoginController();
+  final AuthController _authController = Get.put(AuthController());
   bool visibilityPass = true;
 
   void loginUser() async {
     if (_formKey.currentState!.validate()) {
-      final message = await _loginController.login(
+      final message = await _authController.login(
         _emailController.text,
         _passwordController.text,
       );
       if (message == 'Login successful') {
-        bool isAdmin = _emailController.text == "superadmin@gmail.com";
-        SharedPreferences prefs = await SharedPreferences.getInstance();
-        await prefs.setBool('isAdmin', isAdmin);
-
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(
-            builder: (context) => HomePage(isAdmin: isAdmin),
+            builder: (context) => HomePage(),
           ),
         );
       } else {

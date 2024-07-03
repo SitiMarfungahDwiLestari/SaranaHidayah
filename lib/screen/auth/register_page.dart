@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sarana_hidayah/controller/auth_controller.dart';
-import 'package:sarana_hidayah/screen/login_page.dart';
-import 'package:sarana_hidayah/screen/map_screen.dart';
+import 'package:sarana_hidayah/screen/auth/login_page.dart';
+import 'package:sarana_hidayah/screen/auth/map_screen.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
