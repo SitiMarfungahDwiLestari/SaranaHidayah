@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:sarana_hidayah/controller/auth_controller.dart';
+import 'package:sarana_hidayah/controller/cart_controller.dart';
 import 'package:sarana_hidayah/model/book.dart';
 import 'package:sarana_hidayah/controller/book_controller.dart';
 import 'package:sarana_hidayah/screen/book/add_book_page.dart';
@@ -18,6 +19,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final BookController bookController = Get.put(BookController());
   final AuthController authController = Get.put(AuthController());
+  final CartController cartController = Get.put(CartController());
 
   @override
   void initState() {
@@ -44,6 +46,22 @@ class _HomePageState extends State<HomePage> {
       context,
       MaterialPageRoute(builder: (context) => DetailBookPage(book: book)),
     );
+  }
+
+  void _addToCart(Book book) {
+    cartController.addToCart(book.id, 1).then((_) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('${book.title} berhasil ditambahkan ke keranjang'),
+        ),
+      );
+    }).catchError((error) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Gagal menambahkan ke keranjang: $error'),
+        ),
+      );
+    });
   }
 
   @override
@@ -172,26 +190,50 @@ class _HomePageState extends State<HomePage> {
                             ],
                           );
                         } else {
-                          return Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              IconButton(
-                                icon: const Icon(Icons.remove_shopping_cart),
-                                onPressed: () {
-                                  // Logic to decrease quantity
-                                },
+                          return Center(
+                            child: Padding(
+                              padding: const EdgeInsets.all(18.0),
+                              child: MouseRegion(
+                                cursor: SystemMouseCursors.click,
+                                child: GestureDetector(
+                                  onTap: () {
+                                    _addToCart(book);
+                                  },
+                                  child: Container(
+                                    alignment: Alignment.center,
+                                    height: 50,
+                                    decoration: BoxDecoration(
+                                      color: const Color(0xff134f5c),
+                                      borderRadius: BorderRadius.circular(50),
+                                      boxShadow: const [
+                                        BoxShadow(
+                                          offset: Offset(0, 10),
+                                          blurRadius: 50,
+                                          color: Color(0xffEEEEEE),
+                                        ),
+                                      ],
+                                    ),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: const [
+                                        Icon(
+                                          Icons.shopping_cart,
+                                          color: Colors.white,
+                                        ),
+                                        SizedBox(width: 10),
+                                        Text(
+                                          "Masukkan Keranjang",
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
                               ),
-                              Text(
-                                '0', // Display the current quantity
-                                style: const TextStyle(fontSize: 16),
-                              ),
-                              IconButton(
-                                icon: const Icon(Icons.add_shopping_cart),
-                                onPressed: () {
-                                  // Logic to increase quantity
-                                },
-                              ),
-                            ],
+                            ),
                           );
                         }
                       }),

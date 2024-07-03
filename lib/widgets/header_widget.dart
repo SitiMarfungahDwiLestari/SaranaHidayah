@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sarana_hidayah/screen/cart/cart_page.dart';
 
 class HeaderWidget extends StatelessWidget implements PreferredSizeWidget {
   final String title;
@@ -28,7 +29,11 @@ class HeaderWidget extends StatelessWidget implements PreferredSizeWidget {
           IconButton(
             icon: const Icon(Icons.shopping_cart),
             onPressed: () {
-              // Handle shopping cart action here
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => CartPage(),
+                ),
+              );
             },
           ),
         IconButton(
