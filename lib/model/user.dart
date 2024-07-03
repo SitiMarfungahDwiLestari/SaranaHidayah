@@ -1,90 +1,39 @@
-import 'dart:convert';
-
 class User {
-  final int id;
-  final String name;
-  final String phoneNumber;
-  final String address;
-  final String email;
-  final bool isAdmin;
+  int id;
+  String name;
+  String? phoneNumber;
+  String? address;
+  String email;
+  bool isAdmin;
+
   User({
     required this.id,
     required this.name,
-    required this.phoneNumber,
-    required this.address,
+    this.phoneNumber,
+    this.address,
     required this.email,
     required this.isAdmin,
   });
 
-  User copyWith({
-    int? id,
-    String? name,
-    String? phoneNumber,
-    String? address,
-    String? email,
-    bool? isAdmin,
-  }) {
+  factory User.fromMap(Map<String, dynamic> map) {
     return User(
-      id: id ?? this.id,
-      name: name ?? this.name,
-      phoneNumber: phoneNumber ?? this.phoneNumber,
-      address: address ?? this.address,
-      email: email ?? this.email,
-      isAdmin: isAdmin ?? this.isAdmin,
+      id: map['id'] ?? 0,
+      name: map['name'] ?? '',
+      phoneNumber: map['phone_number'],
+      address: map['address'],
+      email: map['email'] ?? '',
+      isAdmin: map['is_admin'] ?? false,
     );
   }
 
   Map<String, dynamic> toMap() {
-    return <String, dynamic>{
+    return {
       'id': id,
       'name': name,
-      'phoneNumber': phoneNumber,
+      'phone_number': phoneNumber,
       'address': address,
       'email': email,
-      'isAdmin': isAdmin,
+      'is_admin': isAdmin,
     };
-  }
-
-  factory User.fromMap(Map<String, dynamic> map) {
-    return User(
-      id: map['id'] as int,
-      name: map['name'] as String,
-      phoneNumber: map['phoneNumber'] as String,
-      address: map['address'] as String,
-      email: map['email'] as String,
-      isAdmin: map['isAdmin'] as bool,
-    );
-  }
-
-  String toJson() => json.encode(toMap());
-
-  factory User.fromJson(String source) =>
-      User.fromMap(json.decode(source) as Map<String, dynamic>);
-
-  @override
-  String toString() {
-    return 'User(id: $id, name: $name, phoneNumber: $phoneNumber, address: $address, email: $email, isAdmin: $isAdmin)';
-  }
-
-  @override
-  bool operator ==(covariant User other) {
-    if (identical(this, other)) return true;
-
-    return other.id == id &&
-        other.name == name &&
-        other.phoneNumber == phoneNumber &&
-        other.address == address &&
-        other.email == email &&
-        other.isAdmin == isAdmin;
-  }
-
-  @override
-  int get hashCode {
-    return id.hashCode ^
-        name.hashCode ^
-        phoneNumber.hashCode ^
-        address.hashCode ^
-        email.hashCode ^
-        isAdmin.hashCode;
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sarana_hidayah/controller/auth_controller.dart';
+import 'package:sarana_hidayah/screen/auth/profile_page.dart';
 import 'package:sarana_hidayah/screen/category/category_page.dart';
 import 'package:sarana_hidayah/screen/home_page.dart';
 import 'package:sarana_hidayah/screen/auth/login_page.dart';
@@ -50,11 +51,11 @@ class DrawerWidget extends StatelessWidget {
                     leading: const Icon(Icons.home),
                     title: const Text('Catalog'),
                     onTap: () {
-                      // Navigator.of(context).push(
-                      //   MaterialPageRoute(
-                      //     builder: (context) => HomePage(isAdmin: isAdmin),
-                      //   ),
-                      // );
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => HomePage(),
+                        ),
+                      );
                     },
                   ),
                   ListTile(
@@ -88,18 +89,18 @@ class DrawerWidget extends StatelessWidget {
                     leading: const Icon(Icons.person),
                     title: const Text('Profile'),
                     onTap: () {
-                      // Implementasi navigasi ke halaman Profile
+                      Get.to(ProfilePage());
                     },
                   ),
                   ListTile(
                     leading: const Icon(Icons.home),
                     title: const Text('Catalog'),
                     onTap: () {
-                      // Navigator.of(context).push(
-                      //   MaterialPageRoute(
-                      //     builder: (context) => HomePage(isAdmin: isAdmin),
-                      //   ),
-                      // );
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => HomePage(),
+                        ),
+                      );
                     },
                   ),
                   ListTile(
