@@ -3,9 +3,9 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:sarana_hidayah/model/book.dart';
 import 'package:sarana_hidayah/controller/book_controller.dart';
-import 'package:sarana_hidayah/screen/add_book_page.dart';
-import 'package:sarana_hidayah/screen/detail_book_page.dart';
-import 'package:sarana_hidayah/screen/edit_book_page.dart';
+import 'package:sarana_hidayah/screen/book/add_book_page.dart';
+import 'package:sarana_hidayah/screen/book/detail_book_page.dart';
+import 'package:sarana_hidayah/screen/book/edit_book_page.dart';
 import 'package:sarana_hidayah/widgets/drawer_widget.dart';
 import 'package:sarana_hidayah/widgets/header_widget.dart';
 

@@ -27,11 +27,44 @@ class _AddBookPageState extends State<AddBookPage> {
   Category? _selectedCategory;
 
   Future<void> _pickImage() async {
-    final ImagePicker picker = ImagePicker();
-    final XFile? image = await picker.pickImage(source: ImageSource.gallery);
-    setState(() {
-      _image = image;
-    });
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return SafeArea(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              ListTile(
+                leading: const Icon(Icons.photo_library),
+                title: const Text('Gallery'),
+                onTap: () async {
+                  final ImagePicker picker = ImagePicker();
+                  final XFile? image =
+                      await picker.pickImage(source: ImageSource.gallery);
+                  setState(() {
+                    _image = image;
+                  });
+                  Navigator.pop(context);
+                },
+              ),
+              ListTile(
+                leading: const Icon(Icons.photo_camera),
+                title: const Text('Camera'),
+                onTap: () async {
+                  final ImagePicker picker = ImagePicker();
+                  final XFile? image =
+                      await picker.pickImage(source: ImageSource.camera);
+                  setState(() {
+                    _image = image;
+                  });
+                  Navigator.pop(context);
+                },
+              ),
+            ],
+          ),
+        );
+      },
+    );
   }
 
   void _submitForm() {
@@ -70,11 +103,11 @@ class _AddBookPageState extends State<AddBookPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           'Add Book',
           style: TextStyle(color: Colors.white),
         ),
-        backgroundColor: Color(0xff134f5c),
+        backgroundColor: const Color(0xff134f5c),
         iconTheme: const IconThemeData(
           color: Colors.white,
         ),
@@ -91,7 +124,7 @@ class _AddBookPageState extends State<AddBookPage> {
                   labelText: 'Title',
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10.0),
-                    borderSide: BorderSide(
+                    borderSide: const BorderSide(
                       color: Color(0xff134f5c),
                     ),
                   ),
@@ -103,14 +136,14 @@ class _AddBookPageState extends State<AddBookPage> {
                   return null;
                 },
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               TextFormField(
                 controller: authorController,
                 decoration: InputDecoration(
                   labelText: 'Author',
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10.0),
-                    borderSide: BorderSide(
+                    borderSide: const BorderSide(
                       color: Color(0xff134f5c),
                     ),
                   ),
@@ -122,14 +155,14 @@ class _AddBookPageState extends State<AddBookPage> {
                   return null;
                 },
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               TextFormField(
                 controller: publicationYearController,
                 decoration: InputDecoration(
                   labelText: 'Publication Year',
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10.0),
-                    borderSide: BorderSide(
+                    borderSide: const BorderSide(
                       color: Color(0xff134f5c),
                     ),
                   ),
@@ -147,14 +180,14 @@ class _AddBookPageState extends State<AddBookPage> {
                   return null;
                 },
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               TextFormField(
                 controller: priceController,
                 decoration: InputDecoration(
                   labelText: 'Price',
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10.0),
-                    borderSide: BorderSide(
+                    borderSide: const BorderSide(
                       color: Color(0xff134f5c),
                     ),
                   ),
@@ -171,7 +204,7 @@ class _AddBookPageState extends State<AddBookPage> {
                   return null;
                 },
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               TextFormField(
                 controller: descriptionController,
                 maxLines: 4,
@@ -179,7 +212,7 @@ class _AddBookPageState extends State<AddBookPage> {
                   labelText: 'Description',
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10.0),
-                    borderSide: BorderSide(
+                    borderSide: const BorderSide(
                       color: Color(0xff134f5c),
                     ),
                   ),
@@ -191,7 +224,7 @@ class _AddBookPageState extends State<AddBookPage> {
                   return null;
                 },
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               Obx(() => DropdownButtonFormField<Category>(
                     value: _selectedCategory,
                     items: categoryController.categories
@@ -209,7 +242,7 @@ class _AddBookPageState extends State<AddBookPage> {
                       labelText: 'Category',
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10.0),
-                        borderSide: BorderSide(
+                        borderSide: const BorderSide(
                           color: Color(0xff134f5c),
                         ),
                       ),
@@ -221,21 +254,21 @@ class _AddBookPageState extends State<AddBookPage> {
                       return null;
                     },
                   )),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               _image == null
                   ? Container()
                   : Image.file(File(_image!.path),
                       height: 200, fit: BoxFit.cover),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               ElevatedButton.icon(
                 onPressed: _pickImage,
-                icon: Icon(Icons.image),
+                icon: const Icon(Icons.image),
                 label: Text(_image == null ? 'Select Image' : 'Change Image'),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               ElevatedButton(
                 onPressed: _submitForm,
-                child: Text('Add Book'),
+                child: const Text('Add Book'),
               ),
             ],
           ),

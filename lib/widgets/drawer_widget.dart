@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sarana_hidayah/screen/category_page.dart';
 import 'package:sarana_hidayah/screen/home_page.dart';
+import 'package:sarana_hidayah/screen/transaction_page.dart';
 
 class DrawerWidget extends StatefulWidget {
   const DrawerWidget({super.key});
@@ -67,7 +68,11 @@ class _DrawerWidgetState extends State<DrawerWidget> {
               leading: const Icon(Icons.shopping_cart),
               title: Text('Transaction'),
               onTap: () {
-                Navigator.pop(context);
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => TransactionPage(),
+                  ),
+                );
               },
             ),
           ],
