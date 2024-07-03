@@ -6,6 +6,7 @@ import 'package:sarana_hidayah/model/user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthService extends GetxController {
+  late User user;
   Future<Map<String, dynamic>> register(
       String name,
       String phone,
@@ -94,25 +95,31 @@ class AuthService extends GetxController {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     String? token = preferences.getString('token');
 
+    print('Updating user: $id, $name, $phoneNumber, $address');
+
     final response = await http.put(
-      Uri.parse(url + 'profile/$id'),
-      headers: {
-        "Accept": "application/json",
-        "Authorization": "Bearer $token",
-        "Content-Type": "application/json",
+      Uri.parse(
+          url + 'profile/$id'), // Adjust the endpoint according to your API
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': 'Bearer $token',
       },
-      body: json.encode({
+      body: jsonEncode(<String, dynamic>{
         'name': name,
-        'phoneNumber': phoneNumber,
+        'phone_number': phoneNumber,
         'address': address,
       }),
     );
 
+    print('Response Status Code: ${response.statusCode}');
+    print('Response Body: ${response.body}');
+
     if (response.statusCode == 200) {
-      print('User updated successfully');
+      // Update local user data
+      user.name = name;
+      user.phoneNumber = phoneNumber;
+      user.address = address;
     } else {
-      print('Response status: ${response.statusCode}');
-      print('Response body: ${response.body}');
       throw Exception('Failed to update user');
     }
   }

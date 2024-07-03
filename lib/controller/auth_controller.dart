@@ -18,18 +18,23 @@ class AuthController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    fetchUser(); // Panggil fetchUser saat controller diinisialisasi
+    fetchUser(); // Call fetchUser when controller initializes
   }
 
   Future<String> register(String name, String phone, String address,
       String email, String password, String confirmPassword) async {
-    final response = await authService.register(
-        name, phone, address, email, password, confirmPassword);
-    if (response.containsKey('status') &&
-        response['status'] == 'Registration successful') {
-      return 'Registration successful';
-    } else {
-      return response['message'] ?? 'Terjadi kesalahan saat registrasi.';
+    try {
+      final response = await authService.register(
+          name, phone, address, email, password, confirmPassword);
+      if (response.containsKey('status') &&
+          response['status'] == 'Registration successful') {
+        return 'Registration successful';
+      } else {
+        return response['message'] ?? 'Registration error';
+      }
+    } catch (e) {
+      print('Error registering: $e');
+      return 'Registration error';
     }
   }
 
@@ -41,35 +46,40 @@ class AuthController extends GetxController {
         SharedPreferences preferences = await SharedPreferences.getInstance();
         await preferences.setString('token', response['access_token']);
         isAdmin.value = email == "superadmin@gmail.com";
-        await fetchUser(); // Ambil data pengguna setelah login berhasil
+        await fetchUser(); // Fetch user data after successful login
         return 'Login successful';
       } else {
-        return response['message'] ?? 'Terjadi kesalahan saat login.';
+        return response['message'] ?? 'Login error';
       }
     } catch (e) {
       print('Error logging in: $e');
-      return 'Terjadi kesalahan saat login.';
+      return 'Login error';
     }
   }
 
   Future<String> logout() async {
-    final response = await authService.logout();
-    if (response.containsKey('status') &&
-        response['status'] == 'Logout success!') {
-      SharedPreferences preferences = await SharedPreferences.getInstance();
-      await preferences.remove('token');
-      isAdmin.value = false;
-      user.value = User(
-        id: 0,
-        name: '',
-        phoneNumber: '',
-        address: '',
-        email: '',
-        isAdmin: false,
-      ); // Reset user data saat logout
-      return 'Logout successful';
-    } else {
-      return response['message'] ?? 'Terjadi kesalahan saat logout.';
+    try {
+      final response = await authService.logout();
+      if (response.containsKey('status') &&
+          response['status'] == 'Logout success!') {
+        SharedPreferences preferences = await SharedPreferences.getInstance();
+        await preferences.remove('token');
+        isAdmin.value = false;
+        user.value = User(
+          id: 0,
+          name: '',
+          phoneNumber: '',
+          address: '',
+          email: '',
+          isAdmin: false,
+        ); // Reset user data on logout
+        return 'Logout successful';
+      } else {
+        return response['message'] ?? 'Logout error';
+      }
+    } catch (e) {
+      print('Error logging out: $e');
+      return 'Logout error';
     }
   }
 
@@ -84,12 +94,22 @@ class AuthController extends GetxController {
     }
   }
 
-  Future<void> updateUser(
+  Future<bool> updateUser(
       int id, String name, String phoneNumber, String address) async {
     try {
+      print('Updating user: $id, $name, $phoneNumber, $address');
       await authService.updateUser(id, name, phoneNumber, address);
+      // Update local user data
+      user.update((val) {
+        val!.name = name;
+        val.phoneNumber = phoneNumber;
+        val.address = address;
+      });
+      print('User updated successfully: ${user.value}');
+      return true;
     } catch (e) {
       print('Error updating user: $e');
+      return false;
     }
   }
 

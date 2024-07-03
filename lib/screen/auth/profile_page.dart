@@ -26,8 +26,10 @@ class _ProfilePageState extends State<ProfilePage> {
       if (_authController.user.value != null) {
         nameController.text = _authController.user.value.name;
         emailController.text = _authController.user.value.email;
-        phoneController.text = _authController.user.value.phoneNumber ?? '';
-        addressController.text = _authController.user.value.address ?? '';
+        phoneController.text =
+            _authController.user.value.phoneNumber ?? '';
+        addressController.text =
+            _authController.user.value.address ?? '';
       }
     });
   }
@@ -36,15 +38,15 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Profile'),
+        title: const Text('Profile'),
       ),
       body: Center(
         child: Obx(() {
           if (_authController.user.value.name.isEmpty) {
             return Column(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                CircularProgressIndicator(), // Placeholder while loading user data
+              children: const [
+                CircularProgressIndicator(),
                 SizedBox(height: 20),
                 Text('Loading user data...'),
               ],
@@ -52,7 +54,7 @@ class _ProfilePageState extends State<ProfilePage> {
           }
           // Display user data
           return SingleChildScrollView(
-            padding: EdgeInsets.all(16.0),
+            padding: const EdgeInsets.all(16.0),
             child: Column(
               children: [
                 InputWidget(
@@ -60,44 +62,52 @@ class _ProfilePageState extends State<ProfilePage> {
                   controller: nameController,
                   obscuredText: false,
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 InputWidget(
                   hintText: 'Email',
                   controller: emailController,
                   obscuredText: false,
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 InputWidget(
                   hintText: 'Phone Number',
                   controller: phoneController,
                   obscuredText: false,
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 InputWidget(
                   hintText: 'Address',
                   controller: addressController,
                   obscuredText: false,
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 ElevatedButton(
                   onPressed: () async {
-                    // Save the updated user data
                     int id = _authController.user.value.id;
                     String name = nameController.text;
                     String phone = phoneController.text;
                     String address = addressController.text;
 
-                    await _authController.updateUser(id, name, phone, address);
-
-                    Get.snackbar(
-                      'Success',
-                      'Profile updated successfully',
-                      snackPosition: SnackPosition.BOTTOM,
-                    );
+                    try {
+                      await _authController.updateUser(
+                          id, name, phone, address);
+                      Get.snackbar(
+                        'Success',
+                        'Profile updated successfully',
+                        snackPosition: SnackPosition.BOTTOM,
+                      );
+                    } catch (e) {
+                      Get.snackbar(
+                        'Error',
+                        'Failed to update profile',
+                        snackPosition: SnackPosition.BOTTOM,
+                      );
+                      print('Error: $e');
+                    }
                   },
-                  child: Text('Save'),
+                  child: const Text('Save'),
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 ElevatedButton(
                   onPressed: () async {
                     // Logout implementation
@@ -112,7 +122,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       );
                     }
                   },
-                  child: Text('Logout'),
+                  child: const Text('Logout'),
                 ),
               ],
             ),
