@@ -36,10 +36,6 @@ class HeaderWidget extends StatelessWidget implements PreferredSizeWidget {
               );
             },
           ),
-        IconButton(
-          icon: const Icon(Icons.logout),
-          onPressed: () async {},
-        ),
       ],
     );
   }

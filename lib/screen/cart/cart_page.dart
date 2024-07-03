@@ -2,33 +2,120 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:sarana_hidayah/controller/cart_controller.dart';
+import 'package:sarana_hidayah/controller/auth_controller.dart';
+import 'package:sarana_hidayah/screen/auth/profile_page.dart';
+import 'package:sarana_hidayah/screen/transaction/transaction_page.dart';
 
 class CartPage extends StatelessWidget {
   final CartController cartController = Get.put(CartController());
+  final AuthController authController = Get.find<AuthController>();
+  final formatCurrency = NumberFormat.currency(
+    locale: 'id_ID',
+    symbol: 'Rp',
+    decimalDigits: 0,
+  );
 
   @override
   Widget build(BuildContext context) {
-    final formatCurrency = NumberFormat.currency(
-      locale: 'id_ID',
-      symbol: 'Rp',
-      decimalDigits: 0,
-    );
-
     return Scaffold(
       appBar: AppBar(
         title: const Text('Cart'),
       ),
-      body: Obx(() {
-        if (cartController.cartItems.isEmpty) {
-          return const Center(
-            child: Text('No items in cart'),
-          );
-        }
-
-        return Column(
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Expanded(
-              child: ListView.builder(
+            GestureDetector(
+              onTap: () {
+                print('Container clicked');
+                Get.to(ProfilePage());
+              },
+              child: Container(
+                margin: const EdgeInsets.all(10.0),
+                decoration: BoxDecoration(
+                  color: Colors.blue,
+                  borderRadius: BorderRadius.circular(15),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.5),
+                      spreadRadius: 3,
+                      blurRadius: 7,
+                      offset: const Offset(0, 3), // changes position of shadow
+                    ),
+                  ],
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          Icon(
+                            Icons.location_on,
+                            color: Colors.white,
+                            size: 12,
+                          ),
+                          SizedBox(width: 20),
+                          Text(
+                            'Alamat Pengiriman',
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 8),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Obx(() {
+                            // Tampilkan nama dan alamat dari AuthController
+                            String nama = authController.user.value.name;
+                            String alamat =
+                                authController.user.value.address ?? '';
+
+                            return Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Nama : $nama',
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                SizedBox(height: 2),
+                                Text(
+                                  'Alamat : $alamat',
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ],
+                            );
+                          }),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(height: 20),
+            Obx(() {
+              if (cartController.cartItems.isEmpty) {
+                return Center(
+                  child: Text('No items in cart'),
+                );
+              }
+
+              return ListView.builder(
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
                 itemCount: cartController.cartItems.length,
                 itemBuilder: (context, index) {
                   var item = cartController.cartItems[index];
@@ -59,7 +146,7 @@ class CartPage extends StatelessWidget {
                               height: 100,
                               fit: BoxFit.cover,
                               errorBuilder: (context, error, stackTrace) {
-                                return const Icon(
+                                return Icon(
                                   Icons.broken_image,
                                   size: 100,
                                   color: Colors.grey,
@@ -68,7 +155,7 @@ class CartPage extends StatelessWidget {
                               loadingBuilder:
                                   (context, child, loadingProgress) {
                                 if (loadingProgress == null) return child;
-                                return const Center(
+                                return Center(
                                   child: CircularProgressIndicator(),
                                 );
                               },
@@ -81,7 +168,7 @@ class CartPage extends StatelessWidget {
                               children: [
                                 Text(
                                   item['book']['title'],
-                                  style: const TextStyle(
+                                  style: TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.bold,
                                   ),
@@ -89,7 +176,7 @@ class CartPage extends StatelessWidget {
                                 const SizedBox(height: 5),
                                 Text(
                                   'Quantity: $count',
-                                  style: const TextStyle(
+                                  style: TextStyle(
                                     fontSize: 14,
                                     color: Colors.grey,
                                   ),
@@ -97,7 +184,7 @@ class CartPage extends StatelessWidget {
                                 const SizedBox(height: 5),
                                 Text(
                                   'Price: ${formatCurrency.format(price)}',
-                                  style: const TextStyle(
+                                  style: TextStyle(
                                     fontSize: 14,
                                     color: Colors.grey,
                                   ),
@@ -105,7 +192,7 @@ class CartPage extends StatelessWidget {
                                 const SizedBox(height: 5),
                                 Text(
                                   'Total: ${formatCurrency.format(totalItemPrice)}',
-                                  style: const TextStyle(
+                                  style: TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.bold,
                                   ),
@@ -115,7 +202,7 @@ class CartPage extends StatelessWidget {
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
                                     IconButton(
-                                      icon: const Icon(Icons.remove),
+                                      icon: Icon(Icons.remove),
                                       onPressed: () {
                                         if (count > 1) {
                                           cartController.updateCartItem(
@@ -124,15 +211,15 @@ class CartPage extends StatelessWidget {
                                       },
                                     ),
                                     IconButton(
-                                      icon: const Icon(Icons.add),
+                                      icon: Icon(Icons.add),
                                       onPressed: () {
                                         cartController.updateCartItem(
                                             item['id'], count + 1);
                                       },
                                     ),
-                                    const Spacer(),
+                                    Spacer(),
                                     IconButton(
-                                      icon: const Icon(Icons.delete),
+                                      icon: Icon(Icons.delete),
                                       onPressed: () {
                                         cartController
                                             .deleteCartItem(item['id']);
@@ -148,8 +235,9 @@ class CartPage extends StatelessWidget {
                     ),
                   );
                 },
-              ),
-            ),
+              );
+            }),
+            const SizedBox(height: 20),
             Padding(
               padding: const EdgeInsets.all(10.0),
               child: Obx(() {
@@ -166,23 +254,25 @@ class CartPage extends StatelessWidget {
 
                 return Text(
                   'Total Price: ${formatCurrency.format(totalPrice)}',
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
                   ),
                 );
               }),
             ),
+            const SizedBox(height: 20),
           ],
-        );
-      }),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          // Contoh menambahkan item ke keranjang
-          cartController.addToCart(1, 1);
-        },
-        child: const Icon(Icons.add),
+        ),
       ),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () {
+          Get.to(TransactionPage());
+        },
+        label: Text('Lanjutkan Pembayaran'),
+        icon: Icon(Icons.payment),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 }

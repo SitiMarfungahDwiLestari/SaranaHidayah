@@ -20,6 +20,7 @@ class _HomePageState extends State<HomePage> {
   final BookController bookController = Get.put(BookController());
   final AuthController authController = Get.put(AuthController());
   final CartController cartController = Get.put(CartController());
+  var quantity = 1.obs;
 
   @override
   void initState() {
@@ -48,8 +49,56 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  void _showQuantityDialog(Book book) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Jumlah Buku'),
+          content: Obx(() {
+            return Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                IconButton(
+                  icon: Icon(Icons.remove),
+                  onPressed: () {
+                    if (quantity.value > 1) {
+                      quantity.value--;
+                    }
+                  },
+                ),
+                Text(quantity.value.toString()),
+                IconButton(
+                  icon: Icon(Icons.add),
+                  onPressed: () {
+                    quantity.value++;
+                  },
+                ),
+              ],
+            );
+          }),
+          actions: [
+            TextButton(
+              child: Text('Batal'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: Text('Tambahkan ke Keranjang'),
+              onPressed: () {
+                _addToCart(book);
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   void _addToCart(Book book) {
-    cartController.addToCart(book.id, 1).then((_) {
+    cartController.addToCart(book.id, quantity.value).then((_) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('${book.title} berhasil ditambahkan ke keranjang'),
@@ -197,7 +246,7 @@ class _HomePageState extends State<HomePage> {
                                 cursor: SystemMouseCursors.click,
                                 child: GestureDetector(
                                   onTap: () {
-                                    _addToCart(book);
+                                    _showQuantityDialog(book);
                                   },
                                   child: Container(
                                     alignment: Alignment.center,

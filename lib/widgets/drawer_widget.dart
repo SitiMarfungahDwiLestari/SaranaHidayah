@@ -78,7 +78,7 @@ class DrawerWidget extends StatelessWidget {
                       Navigator.of(context).push(
                         MaterialPageRoute(
                           builder: (context) => TransactionPage(
-                            isAdmin: isAdmin,
+                            
                           ),
                         ),
                       );
@@ -110,7 +110,7 @@ class DrawerWidget extends StatelessWidget {
                       Navigator.of(context).push(
                         MaterialPageRoute(
                           builder: (context) => TransactionPage(
-                            isAdmin: isAdmin,
+                            
                           ),
                         ),
                       );
