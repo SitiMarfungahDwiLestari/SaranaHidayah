@@ -10,6 +10,10 @@ class CartController extends GetxController {
     super.onInit();
   }
 
+  void clearCart() {
+    cartItems.clear();
+  }
+
   Future<void> fetchCartItems() async {
     try {
       var items = await CartService().fetchCartItems();

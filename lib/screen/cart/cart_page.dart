@@ -33,14 +33,14 @@ class CartPage extends StatelessWidget {
               child: Container(
                 margin: const EdgeInsets.all(10.0),
                 decoration: BoxDecoration(
-                  color: Colors.blue,
+                  color: Colors.white,
                   borderRadius: BorderRadius.circular(15),
                   boxShadow: [
                     BoxShadow(
                       color: Colors.grey.withOpacity(0.5),
                       spreadRadius: 3,
                       blurRadius: 7,
-                      offset: const Offset(0, 3), // changes position of shadow
+                      offset: const Offset(0, 3),
                     ),
                   ],
                 ),
@@ -53,7 +53,6 @@ class CartPage extends StatelessWidget {
                         children: [
                           Icon(
                             Icons.location_on,
-                            color: Colors.white,
                             size: 12,
                           ),
                           SizedBox(width: 20),
@@ -62,7 +61,6 @@ class CartPage extends StatelessWidget {
                             style: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.bold,
-                              color: Colors.white,
                             ),
                           ),
                         ],
@@ -72,7 +70,6 @@ class CartPage extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Obx(() {
-                            // Tampilkan nama dan alamat dari AuthController
                             String nama = authController.user.value.name;
                             String alamat =
                                 authController.user.value.address ?? '';
@@ -84,7 +81,6 @@ class CartPage extends StatelessWidget {
                                   'Nama : $nama',
                                   style: TextStyle(
                                     fontSize: 12,
-                                    color: Colors.white,
                                   ),
                                 ),
                                 SizedBox(height: 2),
@@ -92,7 +88,6 @@ class CartPage extends StatelessWidget {
                                   'Alamat : $alamat',
                                   style: TextStyle(
                                     fontSize: 12,
-                                    color: Colors.white,
                                   ),
                                 ),
                               ],
@@ -253,7 +248,7 @@ class CartPage extends StatelessWidget {
                 });
 
                 return Text(
-                  'Total Price: ${formatCurrency.format(totalPrice)}',
+                  '',
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,

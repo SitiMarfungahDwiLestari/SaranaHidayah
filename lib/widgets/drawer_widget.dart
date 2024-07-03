@@ -77,9 +77,7 @@ class DrawerWidget extends StatelessWidget {
                     onTap: () {
                       Navigator.of(context).push(
                         MaterialPageRoute(
-                          builder: (context) => TransactionPage(
-                            
-                          ),
+                          builder: (context) => TransactionPage(),
                         ),
                       );
                     },
@@ -109,9 +107,7 @@ class DrawerWidget extends StatelessWidget {
                     onTap: () {
                       Navigator.of(context).push(
                         MaterialPageRoute(
-                          builder: (context) => TransactionPage(
-                            
-                          ),
+                          builder: (context) => AppBar(),
                         ),
                       );
                     },

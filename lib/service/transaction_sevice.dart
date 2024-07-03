@@ -50,28 +50,38 @@ class TransactionService {
     }
   }
 
-  Future<void> createTransaction(String paymentProofPath) async {
+  Future<void> createTransaction(String imagePath) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     String? token = preferences.getString('token');
 
-    var request =
-        http.MultipartRequest('POST', Uri.parse(url + 'transactions'));
+    var request = http.MultipartRequest('POST', Uri.parse(url + 'transaction'));
     request.headers.addAll({
       "Accept": "application/json",
       "Authorization": "Bearer $token",
     });
 
-    request.files.add(
-        await http.MultipartFile.fromPath('payment_proof', paymentProofPath));
+    request.files
+        .add(await http.MultipartFile.fromPath('payment_proof', imagePath));
 
-    final streamedResponse = await request.send();
-    final response = await http.Response.fromStream(streamedResponse);
+    try {
+      var streamedResponse = await request.send();
+      var response = await http.Response.fromStream(streamedResponse);
 
-    print('Response status: ${response.statusCode}');
-    print('Response body: ${response.body}');
+      var responseBody = response.body;
 
-    if (response.statusCode != 201) {
-      throw Exception('Failed to create transaction');
+      if (response.statusCode == 201) {
+        print('Transaction created successfully');
+        print('Response body: $responseBody');
+      } else {
+        print(
+            'Failed to create transaction. Status code: ${response.statusCode}');
+        print('Response body: $responseBody');
+        throw Exception(
+            'Failed to create transaction. Status code: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error creating transaction: $e');
+      throw Exception('Error creating transaction: $e');
     }
   }
 
