@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:sarana_hidayah/constant/constant.dart';
+import 'package:sarana_hidayah/model/transaction.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class TransactionService {
@@ -124,6 +125,40 @@ class TransactionService {
       print('Response status: ${response.statusCode}');
       print('Response body: ${response.body}');
       throw Exception('Failed to delete transaction');
+    }
+  }
+
+  List<Transaction> mockTransactions = [
+    Transaction(
+      id: 1,
+      orderStatus: false,
+    ), // Example transaction
+    Transaction(
+      id: 2,
+      orderStatus: true,
+    ), // Example transaction
+    // Add more transactions as needed
+  ];
+
+  Future<void> updateOrderStatus(
+      int transactionId, String trackingNumber) async {
+    try {
+      // Example implementation: Update order status in your database or API
+      // Replace with actual logic to update order status
+      // For demonstration, updating locally in a mock transaction list
+
+      final updatedTransaction = mockTransactions
+          .firstWhere((transaction) => transaction.id == transactionId);
+      updatedTransaction.orderStatus = true; // Set the order status to true
+
+      // Simulate delay or API call
+      await Future.delayed(Duration(seconds: 2));
+
+      // Replace or update the transaction in your database or storage
+      print('Order status updated successfully');
+    } catch (e) {
+      print('Error updating order status: $e');
+      throw Exception('Failed to update order status');
     }
   }
 }

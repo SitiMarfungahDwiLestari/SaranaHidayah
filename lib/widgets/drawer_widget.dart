@@ -5,6 +5,7 @@ import 'package:sarana_hidayah/screen/auth/profile_page.dart';
 import 'package:sarana_hidayah/screen/category/category_page.dart';
 import 'package:sarana_hidayah/screen/home_page.dart';
 import 'package:sarana_hidayah/screen/auth/login_page.dart';
+import 'package:sarana_hidayah/screen/transaction/history_page.dart';
 import 'package:sarana_hidayah/screen/transaction/transaction_page.dart';
 
 class DrawerWidget extends StatelessWidget {
@@ -77,7 +78,7 @@ class DrawerWidget extends StatelessWidget {
                     onTap: () {
                       Navigator.of(context).push(
                         MaterialPageRoute(
-                          builder: (context) => TransactionPage(),
+                          builder: (context) => HistoryPage(),
                         ),
                       );
                     },
@@ -107,7 +108,7 @@ class DrawerWidget extends StatelessWidget {
                     onTap: () {
                       Navigator.of(context).push(
                         MaterialPageRoute(
-                          builder: (context) => AppBar(),
+                          builder: (context) => HistoryPage(),
                         ),
                       );
                     },
