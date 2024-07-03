@@ -128,62 +128,6 @@ class _RegisterPageState extends State<RegisterPage> {
                             borderRadius: BorderRadius.circular(28),
                             borderSide: const BorderSide(
                                 color: Color(0xff134f5c), width: 2.0)),
-                        labelText: "No Telpon",
-                        hintText: "Masukkan no telpon anda",
-                        labelStyle: const TextStyle(color: Color(0xff134f5c)),
-                        prefixIcon: const Icon(
-                          Icons.phone,
-                          color: Color(0xff134f5c),
-                        ),
-                      ),
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'No Telpon tidak boleh kosong';
-                        }
-                        return null;
-                      },
-                      onSaved: (newValue) {
-                        _phone = newValue!;
-                      },
-                    ),
-                    const SizedBox(height: 20),
-                    TextFormField(
-                      readOnly: true,
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(28),
-                            borderSide: const BorderSide(
-                                color: Color(0xff134f5c), width: 2.0)),
-                        labelText: "Alamat",
-                        hintText: "Pilih alamat anda",
-                        labelStyle: const TextStyle(color: Color(0xff134f5c)),
-                        prefixIcon: const Icon(
-                          Icons.location_on,
-                          color: Color(0xff134f5c),
-                        ),
-                        suffixIcon: IconButton(
-                          icon: const Icon(
-                            Icons.map,
-                            color: Color(0xff134f5c),
-                          ),
-                          onPressed: _selectAddress,
-                        ),
-                      ),
-                      validator: (value) {
-                        if (_address.isEmpty) {
-                          return 'Alamat tidak boleh kosong';
-                        }
-                        return null;
-                      },
-                      controller: TextEditingController(text: _address),
-                    ),
-                    const SizedBox(height: 20),
-                    TextFormField(
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(28),
-                            borderSide: const BorderSide(
-                                color: Color(0xff134f5c), width: 2.0)),
                         labelText: "Email",
                         hintText: "Masukkan email anda",
                         labelStyle: const TextStyle(color: Color(0xff134f5c)),

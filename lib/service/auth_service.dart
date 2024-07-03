@@ -9,28 +9,42 @@ class AuthService extends GetxController {
   late User user;
   Future<Map<String, dynamic>> register(
       String name,
-      String phone,
-      String address,
+      String? phone,
+      String? address,
       String email,
       String password,
       String confirmPassword) async {
+    Map<String, dynamic> body = {
+      'name': name,
+      'email': email,
+      'password': password,
+      'password_confirmation': confirmPassword,
+    };
+
+    if (phone != null && phone.isNotEmpty) {
+      body['phone_number'] = phone;
+    }
+
+    if (address != null && address.isNotEmpty) {
+      body['address'] = address;
+    }
+
     final response = await http.post(
       Uri.parse(url + 'register'),
       headers: {
         'Content-Type': 'application/json',
       },
-      body: jsonEncode({
-        'name': name,
-        'phone_number': phone,
-        'address': address,
-        'email': email,
-        'password': password,
-        'password_confirmation': confirmPassword,
-      }),
+      body: jsonEncode(body),
     );
+
     print('Response Status: ${response.statusCode}');
     print('Response Body: ${response.body}');
-    return jsonDecode(response.body);
+
+    if (response.statusCode == 201 || response.statusCode == 200) {
+      return jsonDecode(response.body);
+    } else {
+      throw Exception('Failed to register: ${response.statusCode}');
+    }
   }
 
   Future<Map<String, dynamic>> login(String email, String password) async {

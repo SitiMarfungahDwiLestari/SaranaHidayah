@@ -22,13 +22,17 @@ class AuthController extends GetxController {
     fetchUser(); // Call fetchUser when controller initializes
   }
 
-  Future<String> register(String name, String phone, String address,
+  Future<String> register(String name, String? phone, String? address,
       String email, String password, String confirmPassword) async {
     try {
+      // Ensure phone and address are not null, set to empty string if null
+      phone ??= '';
+      address ??= '';
+
       final response = await authService.register(
           name, phone, address, email, password, confirmPassword);
       if (response.containsKey('status') &&
-          response['status'] == 'Registration successful') {
+          response['status'] == 'Registration success!') {
         return 'Registration successful';
       } else {
         return response['message'] ?? 'Registration error';
