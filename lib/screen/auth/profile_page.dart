@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sarana_hidayah/controller/auth_controller.dart';
+import 'package:sarana_hidayah/screen/auth/login_page.dart';
 import 'package:sarana_hidayah/widgets/input_widget.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -26,10 +27,8 @@ class _ProfilePageState extends State<ProfilePage> {
       if (_authController.user.value != null) {
         nameController.text = _authController.user.value.name;
         emailController.text = _authController.user.value.email;
-        phoneController.text =
-            _authController.user.value.phoneNumber ?? '';
-        addressController.text =
-            _authController.user.value.address ?? '';
+        phoneController.text = _authController.user.value.phoneNumber ?? '';
+        addressController.text = _authController.user.value.address ?? '';
       }
     });
   }
@@ -109,21 +108,25 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
                 const SizedBox(height: 20),
                 ElevatedButton(
-                  onPressed: () async {
-                    // Logout implementation
-                    String message = await _authController.logout();
-                    if (message == 'Logout successful') {
-                      Get.offAllNamed('/login'); // Navigate to login page
-                    } else {
-                      Get.snackbar(
-                        'Error',
-                        message,
-                        snackPosition: SnackPosition.BOTTOM,
-                      );
-                    }
-                  },
-                  child: const Text('Logout'),
-                ),
+                    onPressed: () async {
+                      try {
+                        await _authController
+                            .deleteUser(_authController.user.value.id);
+                        Get.snackbar(
+                          'Success',
+                          'User deleted successfully',
+                          snackPosition: SnackPosition.BOTTOM,
+                        );
+                        Get.to(LoginPage());
+                      } catch (e) {
+                        Get.snackbar(
+                          'Error',
+                          'Failed to delete user',
+                          snackPosition: SnackPosition.BOTTOM,
+                        );
+                      }
+                    },
+                    child: const Text('Delete Account')),
               ],
             ),
           );

@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:sarana_hidayah/model/user.dart';
+import 'package:sarana_hidayah/screen/auth/login_page.dart';
 import 'package:sarana_hidayah/service/auth_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -116,8 +117,10 @@ class AuthController extends GetxController {
   Future<void> deleteUser(int id) async {
     try {
       await authService.deleteUser(id);
+      print('User deleted successfully in controller');
+      Get.to(LoginPage());
     } catch (e) {
-      print('Error deleting user: $e');
+      print('Error deleting user in controller: $e');
     }
   }
 }

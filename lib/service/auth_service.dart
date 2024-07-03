@@ -129,18 +129,22 @@ class AuthService extends GetxController {
     String? token = preferences.getString('token');
 
     final response = await http.delete(
-      Uri.parse(url + 'profile/$id'),
+      Uri.parse(url + 'profile/delete'),
       headers: {
         "Accept": "application/json",
         "Authorization": "Bearer $token",
       },
+      body: jsonEncode({
+        'id': id,
+      }),
     );
+
+    print('Response status: ${response.statusCode}');
+    print('Response body: ${response.body}');
 
     if (response.statusCode == 200) {
       print('User deleted successfully');
     } else {
-      print('Response status: ${response.statusCode}');
-      print('Response body: ${response.body}');
       throw Exception('Failed to delete user');
     }
   }
