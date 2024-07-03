@@ -4,9 +4,7 @@ import 'package:sarana_hidayah/screen/login_page.dart';
 import 'package:sarana_hidayah/screen/map_screen.dart';
 
 class RegisterPage extends StatefulWidget {
-  final bool isAdmin;
-
-  const RegisterPage({super.key, required this.isAdmin});
+  const RegisterPage({super.key});
 
   @override
   State<RegisterPage> createState() => _RegisterPageState();
@@ -38,8 +36,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
       if (message == 'Registration successful') {
         Navigator.of(context).pushReplacement(
-          MaterialPageRoute(
-              builder: (context) => LoginPage(isAdmin: widget.isAdmin)),
+          MaterialPageRoute(builder: (context) => LoginPage()),
         );
       }
     }

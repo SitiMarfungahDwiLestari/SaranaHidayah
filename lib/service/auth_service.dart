@@ -17,14 +17,14 @@ class AuthService extends GetxController {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: {
+      body: jsonEncode({
         'name': name,
         'phone_number': phone,
         'address': address,
         'email': email,
         'password': password,
         'password_confirmation': confirmPassword,
-      },
+      }),
     );
     print('Response Status: ${response.statusCode}');
     print('Response Body: ${response.body}');

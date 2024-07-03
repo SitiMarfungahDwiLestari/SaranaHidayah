@@ -149,23 +149,45 @@ class _HomePageState extends State<HomePage> {
                     ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          IconButton(
-                            icon: const Icon(Icons.edit),
-                            onPressed: () {
-                              _editBook(book);
-                            },
-                          ),
-                          IconButton(
-                            icon: const Icon(Icons.delete),
-                            onPressed: () {
-                              bookController.deleteBook(book.id);
-                            },
-                          ),
-                        ],
-                      ),
+                      child: widget.isAdmin
+                          ? Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                IconButton(
+                                  icon: const Icon(Icons.edit),
+                                  onPressed: () {
+                                    _editBook(book);
+                                  },
+                                ),
+                                IconButton(
+                                  icon: const Icon(Icons.delete),
+                                  onPressed: () {
+                                    bookController.deleteBook(book.id);
+                                  },
+                                ),
+                              ],
+                            )
+                          : Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                IconButton(
+                                  icon: const Icon(Icons.remove_shopping_cart),
+                                  onPressed: () {
+                                    // Logic to decrease quantity
+                                  },
+                                ),
+                                Text(
+                                  '0', // Display the current quantity
+                                  style: const TextStyle(fontSize: 16),
+                                ),
+                                IconButton(
+                                  icon: const Icon(Icons.add_shopping_cart),
+                                  onPressed: () {
+                                    // Logic to increase quantity
+                                  },
+                                ),
+                              ],
+                            ),
                     ),
                   ],
                 ),

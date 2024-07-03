@@ -18,6 +18,12 @@ class HeaderWidget extends StatelessWidget implements PreferredSizeWidget {
       centerTitle: true,
       iconTheme: const IconThemeData(color: Colors.white),
       actions: <Widget>[
+        IconButton(
+          icon: const Icon(Icons.search),
+          onPressed: () {
+            // Handle search action here
+          },
+        ),
         if (isAdmin == false)
           IconButton(
             icon: const Icon(Icons.shopping_cart),
@@ -25,12 +31,6 @@ class HeaderWidget extends StatelessWidget implements PreferredSizeWidget {
               // Handle shopping cart action here
             },
           ),
-        IconButton(
-          icon: const Icon(Icons.search),
-          onPressed: () {
-            // Handle search action here
-          },
-        ),
         IconButton(
           icon: const Icon(Icons.logout),
           onPressed: () async {},
