@@ -1,10 +1,8 @@
 import 'dart:convert';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:sarana_hidayah/constant/constant.dart';
-import 'package:sarana_hidayah/model/user.dart';
-import 'package:sarana_hidayah/screen/home_page.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthService extends GetxController {
   Future<Map<String, dynamic>> register(
@@ -42,5 +40,10 @@ class AuthService extends GetxController {
     print('Response Status: ${response.statusCode}');
     print('Response Body: ${response.body}');
     return jsonDecode(response.body);
+  }
+
+  Future<void> logout() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    await preferences.remove('token');
   }
 }

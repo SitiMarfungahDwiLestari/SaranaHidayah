@@ -8,12 +8,17 @@ import 'package:sarana_hidayah/widgets/header_widget.dart';
 class CategoryPage extends StatelessWidget {
   final CategoryController categoryController = Get.put(CategoryController());
   final TextEditingController nameController = TextEditingController();
+  final bool isAdmin;
+
+  CategoryPage({Key? key, required this.isAdmin}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: HeaderWidget(title: 'Category'),
-      drawer: DrawerWidget(),
+      appBar: HeaderWidget(title: 'Category', isAdmin: isAdmin),
+      drawer: DrawerWidget(
+        isAdmin: isAdmin,
+      ),
       body: Column(
         children: [
           Expanded(

@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:sarana_hidayah/screen/login_page.dart';
 import 'package:sarana_hidayah/service/auth_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -27,5 +28,9 @@ class AuthController {
     } else {
       return response['message'] ?? 'Terjadi kesalahan saat login.';
     }
+  }
+
+  Future<void> logout() async {
+    await authService.logout();
   }
 }

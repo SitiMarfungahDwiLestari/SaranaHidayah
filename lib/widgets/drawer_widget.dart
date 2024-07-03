@@ -3,14 +3,11 @@ import 'package:sarana_hidayah/screen/category_page.dart';
 import 'package:sarana_hidayah/screen/home_page.dart';
 import 'package:sarana_hidayah/screen/transaction_page.dart';
 
-class DrawerWidget extends StatefulWidget {
-  const DrawerWidget({super.key});
+class DrawerWidget extends StatelessWidget {
+  final bool isAdmin;
 
-  @override
-  State<DrawerWidget> createState() => _DrawerWidgetState();
-}
+  const DrawerWidget({Key? key, required this.isAdmin}) : super(key: key);
 
-class _DrawerWidgetState extends State<DrawerWidget> {
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -42,39 +39,84 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                 ],
               ),
             ),
-            ListTile(
-              leading: const Icon(Icons.home),
-              title: Text('Catalog'),
-              onTap: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => HomePage(),
+            if (isAdmin == true)
+              Column(
+                children: [
+                  ListTile(
+                    leading: const Icon(Icons.home),
+                    title: const Text('Catalog'),
+                    onTap: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => HomePage(isAdmin: isAdmin),
+                        ),
+                      );
+                    },
                   ),
-                );
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.category),
-              title: Text('Category'),
-              onTap: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => CategoryPage(),
+                  ListTile(
+                    leading: const Icon(Icons.category),
+                    title: const Text('Category'),
+                    onTap: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => CategoryPage(
+                            isAdmin: isAdmin,
+                          ),
+                        ),
+                      );
+                    },
                   ),
-                );
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.shopping_cart),
-              title: Text('Transaction'),
-              onTap: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => TransactionPage(),
+                  ListTile(
+                    leading: const Icon(Icons.shopping_cart),
+                    title: const Text('Transaction'),
+                    onTap: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => TransactionPage(
+                            isAdmin: isAdmin,
+                          ),
+                        ),
+                      );
+                    },
                   ),
-                );
-              },
-            ),
+                ],
+              )
+            else
+              Column(
+                children: [
+                  ListTile(
+                    leading: const Icon(Icons.person),
+                    title: const Text('Profile'),
+                    onTap: () {
+                      // Implementasi navigasi ke halaman Profile
+                    },
+                  ),
+                  ListTile(
+                    leading: const Icon(Icons.home),
+                    title: const Text('Catalog'),
+                    onTap: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => HomePage(isAdmin: isAdmin),
+                        ),
+                      );
+                    },
+                  ),
+                  ListTile(
+                    leading: const Icon(Icons.shopping_cart),
+                    title: const Text('Transaction'),
+                    onTap: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => TransactionPage(
+                            isAdmin: isAdmin,
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ],
+              ),
           ],
         ),
       ),

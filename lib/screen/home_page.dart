@@ -10,7 +10,9 @@ import 'package:sarana_hidayah/widgets/drawer_widget.dart';
 import 'package:sarana_hidayah/widgets/header_widget.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+  final bool isAdmin;
+
+  const HomePage({Key? key, required this.isAdmin}) : super(key: key);
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -51,8 +53,9 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: HeaderWidget(
         title: 'Catalog',
+        isAdmin: widget.isAdmin,
       ),
-      drawer: DrawerWidget(),
+      drawer: DrawerWidget(isAdmin: widget.isAdmin),
       body: Obx(() {
         if (bookController.books.isEmpty) {
           return const Center(child: Text('No books found'));
@@ -171,11 +174,13 @@ class _HomePageState extends State<HomePage> {
           },
         );
       }),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _addBook,
-        child: const Icon(Icons.add),
-        tooltip: 'Add Book',
-      ),
+      floatingActionButton: widget.isAdmin
+          ? FloatingActionButton(
+              onPressed: _addBook,
+              child: const Icon(Icons.add),
+              tooltip: 'Add Book',
+            )
+          : null,
     );
   }
 }

@@ -4,7 +4,9 @@ import 'package:sarana_hidayah/screen/home_page.dart';
 import 'package:sarana_hidayah/screen/register_page.dart';
 
 class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+  final bool isAdmin;
+
+  const LoginPage({super.key, required this.isAdmin});
 
   @override
   State<LoginPage> createState() => _LoginPageState();
@@ -26,7 +28,7 @@ class _LoginPageState extends State<LoginPage> {
       if (message == 'Login successful') {
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(
-            builder: (context) => HomePage(),
+            builder: (context) => HomePage(isAdmin: widget.isAdmin),
           ),
         );
       } else {
@@ -184,7 +186,8 @@ class _LoginPageState extends State<LoginPage> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => RegisterPage()),
+                                    builder: (context) =>
+                                        RegisterPage(isAdmin: widget.isAdmin)),
                               );
                             },
                             child: const Text(
