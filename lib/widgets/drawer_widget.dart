@@ -15,37 +15,37 @@ class DrawerWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            Container(
-              color: const Color(0xff134f5c),
-              width: double.infinity,
-              height: 200,
-              padding: const EdgeInsets.only(top: 20.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
-                    margin: const EdgeInsets.only(bottom: 10.0),
-                    height: 70.0,
-                    decoration: const BoxDecoration(
-                      shape: BoxShape.circle,
-                      image: DecorationImage(
-                        image: AssetImage('assets/images/logo.png'),
-                      ),
+      child: Column(
+        children: [
+          Container(
+            color: const Color(0xff134f5c),
+            width: double.infinity,
+            height: 200,
+            padding: const EdgeInsets.only(top: 20.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  margin: const EdgeInsets.only(bottom: 10.0),
+                  height: 70.0,
+                  decoration: const BoxDecoration(
+                    shape: BoxShape.circle,
+                    image: DecorationImage(
+                      image: AssetImage('assets/images/logo.png'),
                     ),
                   ),
-                  const Text(
-                    'Sarana Hidayah',
-                    style: TextStyle(color: Colors.white, fontSize: 20),
-                  ),
-                ],
-              ),
+                ),
+                const Text(
+                  'Sarana Hidayah',
+                  style: TextStyle(color: Colors.white, fontSize: 20),
+                ),
+              ],
             ),
-            if (isAdmin == true)
-              Column(
-                children: [
+          ),
+          Expanded(
+            child: ListView(
+              children: [
+                if (isAdmin == true) ...[
                   ListTile(
                     leading: const Icon(Icons.home),
                     title: const Text('Catalog'),
@@ -83,28 +83,7 @@ class DrawerWidget extends StatelessWidget {
                       );
                     },
                   ),
-                  ListTile(
-                    leading: const Icon(Icons.logout),
-                    title: const Text('Logout'),
-                    onTap: () async {
-                      String message = await authController.logout();
-                      if (message == 'Logout successful') {
-                        Get.offAll(() => LoginPage());
-                      } else {
-                        // Handle logout error
-                        Get.snackbar(
-                          'Error',
-                          message,
-                          snackPosition: SnackPosition.BOTTOM,
-                        );
-                      }
-                    },
-                  ),
-                ],
-              )
-            else
-              Column(
-                children: [
+                ] else ...[
                   ListTile(
                     leading: const Icon(Icons.person),
                     title: const Text('Profile'),
@@ -136,27 +115,28 @@ class DrawerWidget extends StatelessWidget {
                       );
                     },
                   ),
-                  ListTile(
-                    leading: const Icon(Icons.logout),
-                    title: const Text('Logout'),
-                    onTap: () async {
-                      String message = await authController.logout();
-                      if (message == 'Logout successful') {
-                        Get.offAll(() => LoginPage());
-                      } else {
-                        // Handle logout error
-                        Get.snackbar(
-                          'Error',
-                          message,
-                          snackPosition: SnackPosition.BOTTOM,
-                        );
-                      }
-                    },
-                  ),
                 ],
-              ),
-          ],
-        ),
+              ],
+            ),
+          ),
+          ListTile(
+            leading: const Icon(Icons.logout),
+            title: const Text('Logout'),
+            onTap: () async {
+              String message = await authController.logout();
+              if (message == 'Logout successful') {
+                Get.offAll(() => LoginPage());
+              } else {
+                // Handle logout error
+                Get.snackbar(
+                  'Error',
+                  message,
+                  snackPosition: SnackPosition.BOTTOM,
+                );
+              }
+            },
+          ),
+        ],
       ),
     );
   }
