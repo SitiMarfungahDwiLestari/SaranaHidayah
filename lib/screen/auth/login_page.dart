@@ -106,11 +106,8 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     ),
                     validator: (value) {
-                      bool valid = RegExp(r"@").hasMatch(value!);
-                      if (value.isEmpty) {
-                        return "Email tidak boleh kosong";
-                      } else if (!valid) {
-                        return "Harus ada @";
+                      if (value == null || value.isEmpty) {
+                        return 'Email tidak boleh kosong';
                       }
                       return null;
                     },

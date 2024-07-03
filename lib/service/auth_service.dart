@@ -42,6 +42,16 @@ class AuthService extends GetxController {
 
     if (response.statusCode == 201 || response.statusCode == 200) {
       return jsonDecode(response.body);
+    } else if (response.statusCode == 422) {
+      final Map<String, dynamic> errorResponse = jsonDecode(response.body);
+      String errorMessage = 'Registration error';
+
+      if (errorResponse.containsKey('errors') &&
+          errorResponse['errors'].containsKey('email')) {
+        errorMessage = errorResponse['errors']['email'][0];
+      }
+
+      return {'error': true, 'message': errorMessage};
     } else {
       throw Exception('Failed to register: ${response.statusCode}');
     }
