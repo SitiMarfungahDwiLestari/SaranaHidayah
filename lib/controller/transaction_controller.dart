@@ -18,11 +18,13 @@ class TransactionController extends GetxController {
     try {
       List<dynamic> transactionData =
           await transactionService.fetchTransactions();
+      print('Fetched transactions: $transactionData');
       List<Transaction> transactionList =
           transactionData.map((json) => Transaction.fromMap(json)).toList();
       transactions.value = transactionList;
+      print('Transaction list: $transactionList');
     } catch (e) {
-      print(e);
+      print('Error fetching transactions: $e');
       throw Exception('Failed to fetch transactions');
     }
   }

@@ -51,7 +51,7 @@ class AuthController extends GetxController {
         SharedPreferences preferences = await SharedPreferences.getInstance();
         await preferences.setString('token', response['access_token']);
         isAdmin.value = email == "superadmin@gmail.com";
-        await fetchUser(); // Fetch user data after successful login
+        await fetchUser();
         return 'Login successful';
       } else {
         return response['message'] ?? 'Login error';

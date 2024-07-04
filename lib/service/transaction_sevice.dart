@@ -22,7 +22,11 @@ class TransactionService {
 
     if (response.statusCode == 200) {
       final Map<String, dynamic> decodedResponse = json.decode(response.body);
-      return decodedResponse['data'];
+      if (decodedResponse.containsKey('data')) {
+        return decodedResponse['data'];
+      } else {
+        throw Exception('Data key not found in response');
+      }
     } else {
       throw Exception('Failed to load transactions');
     }

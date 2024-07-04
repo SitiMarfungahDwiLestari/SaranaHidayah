@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 class Transaction {
   int? id;
   int? userId;
@@ -27,14 +29,20 @@ class Transaction {
     return Transaction(
       id: map['id'],
       userId: map['user_id'],
-      items: map['items'],
-      totalPrice: map['total_price'],
+      items: map['items'] != null
+          ? json.encode(map['items'])
+          : null, // Encode items to string if needed
+      totalPrice: map['total_price'] is String
+          ? double.tryParse(map['total_price'])
+          : map['total_price']?.toDouble(),
       paymentProof: map['payment_proof'],
       trackingNumber: map['tracking_number'],
       orderStatus: map['order_status'],
       confirmation: map['confirmation'],
-      createdAt: DateTime.parse(map['created_at']),
-      updatedAt: DateTime.parse(map['updated_at']),
+      createdAt:
+          map['created_at'] != null ? DateTime.parse(map['created_at']) : null,
+      updatedAt:
+          map['updated_at'] != null ? DateTime.parse(map['updated_at']) : null,
     );
   }
 

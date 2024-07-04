@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sarana_hidayah/controller/category_controller.dart';
+import 'package:sarana_hidayah/controller/transaction_controller.dart';
 import 'package:sarana_hidayah/screen/auth/login_page.dart';
 import 'package:sarana_hidayah/screen/splash_screen.dart';
 
 void main() {
   Get.put(CategoryController());
+  Get.put(TransactionController());
   runApp(const MyApp());
 }
 
