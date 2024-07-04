@@ -165,4 +165,26 @@ class TransactionService {
       throw Exception('Failed to update order status');
     }
   }
+  Future<void> updateTransactionTrackingNumber(int id, String trackingNumber) async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    String? token = preferences.getString('token');
+
+    final response = await http.put(
+      Uri.parse(url + 'transaction/$id'),
+      headers: {
+        "Accept": "application/json",
+        "Authorization": "Bearer $token",
+        "Content-Type": "application/json",
+      },
+      body: json.encode({
+        'tracking_number': trackingNumber,
+      }),
+    );
+
+    if (response.statusCode != 200) {
+      print('Response status: ${response.statusCode}');
+      print('Response body: ${response.body}');
+      throw Exception('Failed to update transaction tracking number');
+    }
+  }
 }

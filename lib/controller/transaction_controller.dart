@@ -68,4 +68,16 @@ class TransactionController extends GetxController {
       throw Exception('Failed to delete transaction');
     }
   }
+
+  Future<void> updateTransactionTrackingNumber(
+      int id, String trackingNumber) async {
+    try {
+      await transactionService.updateTransactionTrackingNumber(
+          id, trackingNumber);
+      await fetchTransactions();
+    } catch (e) {
+      print(e);
+      throw Exception('Failed to update transaction tracking number');
+    }
+  }
 }

@@ -18,6 +18,22 @@ class DetailTransaksiPage extends StatelessWidget {
     // Fetch the transaction details
     _transactionController.fetchTransactionById(transactionId);
 
+    TextEditingController resiController = TextEditingController();
+
+    void updateTrackingNumber() {
+      String newTrackingNumber = resiController.text.trim();
+      if (newTrackingNumber.isNotEmpty) {
+        _transactionController.updateTransactionTrackingNumber(
+          transactionId,
+          newTrackingNumber,
+        );
+      } else {
+        // Handle case where tracking number is empty
+        // You can show a snackbar or error message
+        print('Tracking number cannot be empty');
+      }
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Detail Transaksi'),
@@ -28,9 +44,10 @@ class DetailTransaksiPage extends StatelessWidget {
             return CircularProgressIndicator();
           } else {
             return Container(
-              height: 350,
+              height: 500,
               width: 1000,
               margin: const EdgeInsets.all(10.0),
+              padding: const EdgeInsets.all(10.0),
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(15),
@@ -58,28 +75,47 @@ class DetailTransaksiPage extends StatelessWidget {
                   // Display transaction details
                   Text(
                       'Total Price: ${_transactionController.transaction.value.totalPrice}'),
-                  // Text('Order Status: ${_transactionController.transaction.value.orderStatus ? "Completed" : "Pending"}'),
                   Text(
                       'Tracking Number: ${_transactionController.transaction.value.trackingNumber ?? "N/A"}'),
                   Text(
                       'Payment Proof: ${_transactionController.transaction.value.paymentProof ?? "N/A"}'),
                   SizedBox(height: 20),
                   Text('Items:'),
-                  // Expanded(
-                  //   child: ListView.builder(
-                  //     itemCount: _transactionController
-                  //             .transaction.value.items?.length ??
-                  //         0,
-                  //     itemBuilder: (context, index) {
-                  //       var item = _transactionController
-                  //           .transaction.value.items![index];
-                  //       return ListTile(
-                  //         title: Text('${item.bookTitle} (x${item.count})'),
-                  //         subtitle: Text('Price: ${item.bookPrice}'),
-                  //       );
-                  //     },
-                  //   ),
-                  // ),
+                  Expanded(
+                    child: ListView.builder(
+                      itemCount: _transactionController
+                              .transaction.value.items?.length ??
+                          0,
+                      itemBuilder: (context, index) {
+                        var item = _transactionController
+                            .transaction.value.items![index];
+                        return ListTile(
+                          // title:
+                          //     Text('${item.bookTitle} (x${item.count ?? 1})'),
+                          // subtitle: Text('Price: ${item.bookPrice}'),
+                        );
+                      },
+                    ),
+                  ),
+                  SizedBox(height: 20),
+                  // Conditional button and text field for admin
+                  if (_authController.isAdmin.value)
+                    Column(
+                      children: [
+                        ElevatedButton(
+                          onPressed: updateTrackingNumber,
+                          child: Text('Tambah'),
+                        ),
+                        SizedBox(height: 10),
+                        TextField(
+                          controller: resiController,
+                          decoration: InputDecoration(
+                            hintText: 'Tambah nomor resi',
+                            border: OutlineInputBorder(),
+                          ),
+                        ),
+                      ],
+                    ),
                 ],
               ),
             );
