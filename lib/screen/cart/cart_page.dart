@@ -27,7 +27,6 @@ class CartPage extends StatelessWidget {
           children: [
             GestureDetector(
               onTap: () {
-                print('Container clicked');
                 Get.to(ProfilePage());
               },
               child: Container(
@@ -45,11 +44,11 @@ class CartPage extends StatelessWidget {
                   ],
                 ),
                 child: Padding(
-                  padding: const EdgeInsets.all(10.0),
+                  padding: const EdgeInsets.all(20.0),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Row(
+                      const Row(
                         children: [
                           Icon(
                             Icons.location_on,
@@ -66,35 +65,29 @@ class CartPage extends StatelessWidget {
                         ],
                       ),
                       const SizedBox(height: 8),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Obx(() {
-                            String nama = authController.user.value.name;
-                            String alamat =
-                                authController.user.value.address ?? '';
+                      Obx(() {
+                        String nama = authController.user.value.name;
+                        String alamat = authController.user.value.address ?? '';
 
-                            return Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'Nama : $nama',
-                                  style: TextStyle(
-                                    fontSize: 12,
-                                  ),
-                                ),
-                                SizedBox(height: 2),
-                                Text(
-                                  'Alamat : $alamat',
-                                  style: TextStyle(
-                                    fontSize: 12,
-                                  ),
-                                ),
-                              ],
-                            );
-                          }),
-                        ],
-                      ),
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Nama : $nama',
+                              style: const TextStyle(
+                                fontSize: 12,
+                              ),
+                            ),
+                            const SizedBox(height: 2),
+                            Text(
+                              'Alamat : $alamat',
+                              style: const TextStyle(
+                                fontSize: 12,
+                              ),
+                            ),
+                          ],
+                        );
+                      }),
                     ],
                   ),
                 ),
@@ -103,14 +96,13 @@ class CartPage extends StatelessWidget {
             const SizedBox(height: 20),
             Obx(() {
               if (cartController.cartItems.isEmpty) {
-                return Center(
+                return const Center(
                   child: Text('No items in cart'),
                 );
               }
-
               return ListView.builder(
                 shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
+                physics: const NeverScrollableScrollPhysics(),
                 itemCount: cartController.cartItems.length,
                 itemBuilder: (context, index) {
                   var item = cartController.cartItems[index];
@@ -141,7 +133,7 @@ class CartPage extends StatelessWidget {
                               height: 100,
                               fit: BoxFit.cover,
                               errorBuilder: (context, error, stackTrace) {
-                                return Icon(
+                                return const Icon(
                                   Icons.broken_image,
                                   size: 100,
                                   color: Colors.grey,
@@ -150,7 +142,7 @@ class CartPage extends StatelessWidget {
                               loadingBuilder:
                                   (context, child, loadingProgress) {
                                 if (loadingProgress == null) return child;
-                                return Center(
+                                return const Center(
                                   child: CircularProgressIndicator(),
                                 );
                               },
@@ -163,58 +155,40 @@ class CartPage extends StatelessWidget {
                               children: [
                                 Text(
                                   item['book']['title'],
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
                                 const SizedBox(height: 5),
                                 Text(
-                                  'Quantity: $count',
-                                  style: TextStyle(
+                                  formatCurrency.format(price),
+                                  style: const TextStyle(
                                     fontSize: 14,
                                     color: Colors.grey,
                                   ),
                                 ),
-                                const SizedBox(height: 5),
+                                const SizedBox(width: 5),
                                 Text(
-                                  'Price: ${formatCurrency.format(price)}',
-                                  style: TextStyle(
+                                  'Jumlah Pesan: $count',
+                                  style: const TextStyle(
                                     fontSize: 14,
-                                    color: Colors.grey,
                                   ),
                                 ),
-                                const SizedBox(height: 5),
-                                Text(
-                                  'Total: ${formatCurrency.format(totalItemPrice)}',
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                const SizedBox(height: 5),
+                                const SizedBox(height: 10),
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
-                                    IconButton(
-                                      icon: Icon(Icons.remove),
-                                      onPressed: () {
-                                        if (count > 1) {
-                                          cartController.updateCartItem(
-                                              item['id'], count - 1);
-                                        }
-                                      },
+                                    Text(
+                                      'Total: ${formatCurrency.format(totalItemPrice)}',
+                                      style: const TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.bold,
+                                      ),
                                     ),
+                                    const Spacer(),
                                     IconButton(
-                                      icon: Icon(Icons.add),
-                                      onPressed: () {
-                                        cartController.updateCartItem(
-                                            item['id'], count + 1);
-                                      },
-                                    ),
-                                    Spacer(),
-                                    IconButton(
-                                      icon: Icon(Icons.delete),
+                                      icon: const Icon(Icons.delete),
                                       onPressed: () {
                                         cartController
                                             .deleteCartItem(item['id']);
@@ -236,22 +210,33 @@ class CartPage extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(10.0),
               child: Obx(() {
-                double totalPrice =
-                    cartController.cartItems.fold(0.0, (sum, item) {
-                  int count = item['count'] is String
-                      ? int.parse(item['count'])
-                      : item['count'];
-                  int price = item['book']['price'] is String
-                      ? double.parse(item['book']['price']).toInt()
-                      : item['book']['price'];
-                  return sum + (count * price).toDouble();
-                });
-
-                return Text(
-                  '',
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
+                return Card(
+                  margin: const EdgeInsets.all(10.0),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                  elevation: 5,
+                  child: Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Text(
+                          'Total Price:',
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        Text(
+                          formatCurrency.format(cartController.totalPrice),
+                          style: const TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 );
               }),
@@ -264,8 +249,8 @@ class CartPage extends StatelessWidget {
         onPressed: () {
           Get.to(TransactionPage());
         },
-        label: Text('Lanjutkan Pembayaran'),
-        icon: Icon(Icons.payment),
+        label: const Text('Lanjutkan Pembayaran'),
+        icon: const Icon(Icons.payment),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );

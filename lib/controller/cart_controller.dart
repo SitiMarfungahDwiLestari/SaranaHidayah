@@ -49,4 +49,15 @@ class CartController extends GetxController {
       Get.snackbar('Error', 'Failed to update item quantity');
     }
   }
+
+  double get totalPrice {
+    return cartItems.fold(0.0, (sum, item) {
+      int count =
+          item['count'] is String ? int.parse(item['count']) : item['count'];
+      int price = item['book']['price'] is String
+          ? double.parse(item['book']['price']).toInt()
+          : item['book']['price'];
+      return sum + (count * price).toDouble();
+    });
+  }
 }
